@@ -8,8 +8,8 @@ import { GUI } from "dat.gui";
 
 const bloom_params = {
     exposure: 0.1,
-    bloomStrength: 0.9,
-    bloomThreshold: 0.5,
+    bloomStrength: 0.2,//0.9,
+    bloomThreshold: 0.27,//,0.5,
     bloomRadius: 0
 };
 
@@ -304,7 +304,7 @@ export class RenderEngine {
             }
             const plane:THREE.Object3D = new THREE.Mesh(plane_geom, plane_mat);
             plane.scale.set(scale,scale,scale);
-            plane.rotation.x = 90;
+            plane.rotation.x = Math.PI / 2;
             this.scene.add(plane);
             this.water_mat1 = plane_mat;
             });
@@ -380,7 +380,7 @@ export class RenderEngine {
             }
             const plane:THREE.Object3D = new THREE.Mesh(plane_geom, plane_mat2);
             plane.position.z-= (scale / 2);
-            plane.rotation.x = 90;
+            plane.rotation.x = Math.PI / 2;
             plane.scale.set(scale,scale,scale);
             // console.log(`plane.rotation: ${plane.rotation}`)
             this.water_mat2 = plane_mat2;
