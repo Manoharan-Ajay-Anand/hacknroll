@@ -10,7 +10,7 @@ const bloom_params = {
     exposure: 0.2,
     bloomStrength: 0.2,//0.9,
     bloomThreshold: 0.18,//,0.5,
-    bloomRadius: 0
+    bloomRadius: 0.35
 };
 
 
@@ -76,9 +76,17 @@ export class RenderEngine {
         this.scene.add(env);
         let ambi_light_color = new THREE.Color(0xffffff);   //0x2a1a3a
         this.scene.add(new THREE.AmbientLight(ambi_light_color, 3.0));
-        // this.pointLight = new THREE.PointLight(0xffffff, 100);
-        // this.pointLight.position.set(0, 0, 100);
-        // this.scene.add(this.pointLight);
+        this.pointLight = new THREE.PointLight(0xffffff, 200);
+        this.pointLight.position.set(100, 10, 50);
+        const geometry = new THREE.SphereGeometry( 10, 32, 16 );
+        const lightMat = new THREE.MeshStandardMaterial({
+            emissive: new THREE.Color(0xFFA13C),
+            emissiveIntensity: 12000.0
+        })
+        let sphere = new THREE.Mesh( geometry, lightMat );
+        sphere.position.set(100, 200, 50);
+        this.scene.add( sphere );
+        this.scene.add(this.pointLight);
         // this.sunLight = new THREE.DirectionalLight(0xffffff, 10);
         // this.sunLight.position.set(0, 0, 1000);
         // // this.sunLight.rotation.x = Math.PI / 2;
