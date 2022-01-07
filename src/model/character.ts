@@ -5,15 +5,12 @@ export class CharacterInfo {
     name: string;
     mass: number;
     scale: number;
-    startPos: THREE.Vector3;
     halfExtents: THREE.Vector3;
 
-    constructor(name: string, mass: number, scale: number, startPos: THREE.Vector3, 
-        halfExtents: THREE.Vector3) {
+    constructor(name: string, mass: number, scale: number, halfExtents: THREE.Vector3) {
         this.name = name;
         this.mass = mass;
         this.scale = scale;
-        this.startPos = startPos;
         this.halfExtents = halfExtents;
     }
 }
