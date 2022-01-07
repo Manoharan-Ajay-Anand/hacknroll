@@ -11,12 +11,14 @@ export class GameEngine {
     physicsEngine: PhysicsEngine;
     characterMap: Map<string, Character>;
     clock: THREE.Clock;
+    model_mixers: any[];
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
         this.physicsEngine = physicsEngine;
         this.clock = new THREE.Clock();
         this.characterMap = new Map();
+        this.model_mixers = [];
     }
 
     async loadCharacters(infos: CharacterInfo[]) {
@@ -38,12 +40,28 @@ export class GameEngine {
         let spawned = ModelLoader.cloneCharacter(character);
         spawned.model.position.copy(pos);
         spawned.body.position.set(pos.x, pos.y, pos.z);
+        // run the animation
+        if (character.info.hasAnimation == true){
+            console.log("HAS ANIMATION")
+            let anims = spawned.animation;
+            console.log(anims)
+            let mixer = new THREE.AnimationMixer( spawned.model );
+            for (let idx in anims){
+                let clipAction = mixer.clipAction( anims[ idx ] );
+                clipAction.play();
+            }
+            this.model_mixers.push(mixer);
+        }
+        // spawned.model.tick = (delta) => mixer.update(delta);
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned);
     }
 
     loop() {
         let dt = this.clock.getDelta();
+        for(let idx in this.model_mixers){
+            this.model_mixers[idx].update(dt)
+        }
         this.physicsEngine.step(dt ? dt : timeStep);
         this.renderEngine.render();
     }

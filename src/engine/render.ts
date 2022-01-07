@@ -13,6 +13,7 @@ const bloom_params = {
     bloomRadius: 0.35
 };
 
+const USE_BLOOM = true;
 
 const loadShaders = async (v:any, f:any, others:any, loader:any) => {
     console.log(`v and f: ${v}, ${f}`);
@@ -101,51 +102,54 @@ export class RenderEngine {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
         this.renderer.physicallyCorrectLights = true;
+        if (USE_BLOOM === true){
+            const renderScene = new RenderPass( this.scene, this.camera );
 
-        const renderScene = new RenderPass( this.scene, this.camera );
+            const bloomPass = new UnrealBloomPass( new THREE.Vector2( sizes.width, sizes.height ), 1.5, 0.4, 0.85 );
+            bloomPass.threshold = bloom_params.bloomThreshold;
+            bloomPass.strength = bloom_params.bloomStrength;
+            bloomPass.radius = bloom_params.bloomRadius;
 
-        const bloomPass = new UnrealBloomPass( new THREE.Vector2( sizes.width, sizes.height ), 1.5, 0.4, 0.85 );
-        bloomPass.threshold = bloom_params.bloomThreshold;
-        bloomPass.strength = bloom_params.bloomStrength;
-        bloomPass.radius = bloom_params.bloomRadius;
-
-        let composer = new EffectComposer( this.renderer );
-        composer.addPass( renderScene );
-        composer.addPass( bloomPass );
-        this.composer = composer;
+            let composer = new EffectComposer( this.renderer );
+            composer.addPass( renderScene );
+            composer.addPass( bloomPass );
+            this.composer = composer;
 
 
-        const createGUI = () => {
-            var gui: GUI = new GUI();
-            gui.add( bloom_params, 'exposure', 0.1, 2 ).onChange( function ( value:any ) {
+            const createGUI = () => {
+                var gui: GUI = new GUI();
+                gui.add( bloom_params, 'exposure', 0.1, 2 ).onChange( function ( value:any ) {
+            
+                    this.renderer.toneMappingExposure = Math.pow( value, 4.0 );
         
-                this.renderer.toneMappingExposure = Math.pow( value, 4.0 );
-    
-            } );
-    
-            gui.add( bloom_params, 'bloomThreshold', 0.0, 1.0 ).onChange( function ( value:any ) {
-    
-                bloomPass.threshold = Number( value );
-    
-            } );
-    
-            gui.add( bloom_params, 'bloomStrength', 0.0, 3.0 ).onChange( function ( value:any ) {
-    
-                bloomPass.strength = Number( value );
-    
-            } );
-    
-            gui.add( bloom_params, 'bloomRadius', 0.0, 1.0 ).step( 0.01 ).onChange( function ( value:any ) {
-    
-                bloomPass.radius = Number( value );
-    
-            } );
-    
-    
-    
-            gui.domElement.id = 'gui';
+                } );
+        
+                gui.add( bloom_params, 'bloomThreshold', 0.0, 1.0 ).onChange( function ( value:any ) {
+        
+                    bloomPass.threshold = Number( value );
+        
+                } );
+        
+                gui.add( bloom_params, 'bloomStrength', 0.0, 3.0 ).onChange( function ( value:any ) {
+        
+                    bloomPass.strength = Number( value );
+        
+                } );
+        
+                gui.add( bloom_params, 'bloomRadius', 0.0, 1.0 ).step( 0.01 ).onChange( function ( value:any ) {
+        
+                    bloomPass.radius = Number( value );
+        
+                } );
+        
+        
+        
+                gui.domElement.id = 'gui';
+            }
+            createGUI();
         }
-        createGUI();
+
+        
 
 
 
@@ -286,7 +290,7 @@ export class RenderEngine {
             // console.log(shaders[2])
             let utils = shaders[2]
             plane_mat.onBeforeCompile = (shader:any) => {
-                console.log("onBeforeCompile")
+                // console.log("onBeforeCompile")
                 for (let i in utils){
                     for (let j in utils){
                     const re = new RegExp(`^(?!\/\/)#include <${utils[j]["name"]}>`, 'gm')
@@ -300,14 +304,14 @@ export class RenderEngine {
                 }
                 for (let idx in utils){
                     let util = utils[idx]
-                    console.log(util["name"])
+                    // console.log(util["name"])
                     const re = new RegExp(`^(?!\/\/)#include <${util["name"]}>`, 'gm')
                     const content = util["content"]
                     shader.vertexShader = shader.vertexShader.replace(
                         re,
                         content
                     )
-                    console.log(`Replacing fragment`)
+                    // console.log(`Replacing fragment`)
                     shader.fragmentShader = shader.fragmentShader.replace(
                         re,
                         content
@@ -362,7 +366,7 @@ export class RenderEngine {
             plane_mat2.uniformsNeedUpdate = true;
             let utils = shaders[2]
             plane_mat2.onBeforeCompile = (shader:any) => {
-                console.log("onBeforeCompile")
+                // console.log("onBeforeCompile")
                 for (let i in utils){
                     for (let j in utils){
                     const re = new RegExp(`^(?!\/\/)#include <${utils[j]["name"]}>`, 'gm')
@@ -376,14 +380,14 @@ export class RenderEngine {
                 }
                 for (let idx in utils){
                     let util = utils[idx]
-                    console.log(util["name"])
+                    // console.log(util["name"])
                     const re = new RegExp(`^(?!\/\/)#include <${util["name"]}>`, 'gm')
                     const content = util["content"]
                     shader.vertexShader = shader.vertexShader.replace(
                         re,
                         content
                     )
-                    console.log(`Replacing fragment`)
+                    // console.log(`Replacing fragment`)
                     shader.fragmentShader = shader.fragmentShader.replace(
                         re,
                         content
@@ -412,7 +416,10 @@ export class RenderEngine {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(sizes.width, sizes.height);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.composer.setSize( window.innerWidth, window.innerHeight );
+        if(USE_BLOOM){
+            this.composer.setSize( window.innerWidth, window.innerHeight );
+        }
+        // this.composer.setSize( window.innerWidth, window.innerHeight );
     }
 
     renderLogic(){
@@ -428,11 +435,18 @@ export class RenderEngine {
               (0.3 / 1000) * (Date.now() - this.frame_start);
             plane_mat2.uniforms["texture1"].value = this.mat2texture;
         }
-        this.composer.render();
+        // this.composer.render();
+        if(USE_BLOOM){
+            this.composer.render();
+        } else {
+            this.renderer.render(this.scene, this.camera);
+        }
+        
+        // this.renderer
     }
 
     render() {
-        this.renderer.render(this.scene, this.camera);
+        // this.renderer.render(this.scene, this.camera);
         // Animation Loop
         this.renderLogic();
         
