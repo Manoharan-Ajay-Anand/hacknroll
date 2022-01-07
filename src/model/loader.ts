@@ -31,25 +31,38 @@ export default {
             let animations:any[] = []
             if (gltf.animations && gltf.animations.length > 0) {
                 console.log("Set has animation")
+                let mixer = new THREE.AnimationMixer( model );
+                animations = gltf.animations;
+                charInfo.set_has_anim(true);
+                for (let idx in animations){
+                    let clipAction = mixer.clipAction( animations[ idx ] );
+                    clipAction.play();
+                }
                 // let mixer = new THREE.AnimationMixer( gltf.scene );
                 // var action = mixer.clipAction( gltf.animations[ 0 ] );
 	            // action.play();
-                charInfo.set_has_anim(true);
-                animations = gltf.animations;
+                charInfo.set_mixer(mixer);
             }
             return new Character(charInfo, body, model, animations);
         });
     },
     cloneCharacter(character: Character) {
-        let info = character.info;
+        console.log("cloneCharacter")
+        let info = character.info.clone();
         let halfExtents = info.halfExtents;
-        let animation = character.animation;
+        let animations = character.animation.slice();
         let model = SkeletonUtils.clone(character.model);
+        info.set_mixer(new THREE.AnimationMixer(model));
+        console.log(animations)
+        for (let idx in animations){
+            let clipAction = info.mixer.clipAction( animations[ idx ] );
+            clipAction.play();
+        }
         let body = new CANNON.Body({
             mass: info.mass,
             shape: new CANNON.Box(new CANNON.Vec3(halfExtents.x, halfExtents.y, halfExtents.z)),
             collisionResponse: false
         }); 
-        return new Character(info, body, model, animation);
+        return new Character(info, body, model, animations);
     }
 };

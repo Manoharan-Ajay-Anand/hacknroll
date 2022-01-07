@@ -11,14 +11,15 @@ export class GameEngine {
     physicsEngine: PhysicsEngine;
     characterMap: Map<string, Character>;
     clock: THREE.Clock;
-    model_mixers: any[];
+    // model_mixers: any[];
+    fishies: Character[];
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
         this.physicsEngine = physicsEngine;
         this.clock = new THREE.Clock();
         this.characterMap = new Map();
-        this.model_mixers = [];
+        this.fishies = [];
     }
 
     async loadCharacters(infos: CharacterInfo[]) {
@@ -41,27 +42,42 @@ export class GameEngine {
         spawned.model.position.copy(pos);
         spawned.body.position.set(pos.x, pos.y, pos.z);
         // run the animation
-        if (character.info.hasAnimation == true){
-            console.log("HAS ANIMATION")
-            let anims = spawned.animation;
-            console.log(anims)
-            let mixer = new THREE.AnimationMixer( spawned.model );
-            for (let idx in anims){
-                let clipAction = mixer.clipAction( anims[ idx ] );
-                clipAction.play();
-            }
-            this.model_mixers.push(mixer);
-        }
+        // if (character.info.hasAnimation == true){
+        //     console.log("HAS ANIMATION")
+        //     let anims = spawned.animation;
+        //     console.log(anims)
+        //     let mixer = new THREE.AnimationMixer( spawned.model );
+        //     for (let idx in anims){
+        //         let clipAction = mixer.clipAction( anims[ idx ] );
+        //         clipAction.play();
+        //     }
+        //     this.model_mixers.push(mixer);
+        // }
         // spawned.model.tick = (delta) => mixer.update(delta);
+        this.fishies.push(spawned)
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned);
     }
 
+
+    updateAnimalMovement(dt: number){
+        
+        for(let idx in this.fishies){
+            let cur_fish = this.fishies[idx]
+            let info = cur_fish.info;
+            // console.log(info)
+            if (info.mixer){
+                info.mixer.update(dt)
+            }
+            
+            // this.fishies[idx].update(dt)
+        }
+    }
+
     loop() {
         let dt = this.clock.getDelta();
-        for(let idx in this.model_mixers){
-            this.model_mixers[idx].update(dt)
-        }
+        this.updateAnimalMovement(dt)
+        
         this.physicsEngine.step(dt ? dt : timeStep);
         this.renderEngine.render();
     }

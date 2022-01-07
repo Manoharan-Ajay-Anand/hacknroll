@@ -5,7 +5,13 @@ import { PhysicsEngine } from './engine/physics';
 import { CharacterInfo } from './model/character';
 import * as THREE from 'three'
 import { GameEngine } from './engine/game';
-
+const fishType = [
+    'catfishAnim',
+    "croc",
+    "tuna",
+    "turtle",
+    "swordfish",
+  ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
         'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1)
@@ -78,7 +84,7 @@ async function init() {
         let pos_x = getRandomArbitrary(-80, 80);
         let pos_z = getRandomArbitrary(-80, 80);
         gameEngine.spawnCharacter(
-            'catfishAnim', 
+            fishType[Math.floor(Math.random() * fishType.length)], 
             new THREE.Vector3(pos_x, -4, pos_z)
         );
     }, 2000);
