@@ -6,7 +6,13 @@ import { Character, CharacterInfo } from './model/character';
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { GameEngine } from './engine/game';
-
+const fishType = [
+    'catfishAnim',
+    "croc",
+    "tuna",
+    "turtle",
+    "swordfish",
+  ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
         'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1)
