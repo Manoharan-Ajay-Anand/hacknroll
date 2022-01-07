@@ -102,7 +102,7 @@ async function init() {
             velocity
         );
         count++;
-    }, 1000);
+    }, 2000);
 }
 
 init();

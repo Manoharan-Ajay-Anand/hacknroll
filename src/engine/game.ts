@@ -34,27 +34,18 @@ export class GameEngine {
     }
 
     spawnCharacter(name: string, pos: THREE.Vector3, rot: THREE.Euler, velocity: THREE.Vector3) {
+        // console.log("")
         if (!this.characterMap.has(name)) {
             return;
         }
         let character = this.characterMap.get(name);
         let spawned = ModelLoader.cloneCharacter(character);
+        spawned.model.position.set(pos.x, pos.y, pos.z);
         spawned.body.position.set(pos.x, pos.y, pos.z);
         spawned.body.velocity.set(velocity.x, velocity.y, velocity.z);
         spawned.body.quaternion.setFromEuler(rot.x, rot.y, rot.z);
-        // run the animation
-        // if (character.info.hasAnimation == true){
-        //     console.log("HAS ANIMATION")
-        //     let anims = spawned.animation;
-        //     console.log(anims)
-        //     let mixer = new THREE.AnimationMixer( spawned.model );
-        //     for (let idx in anims){
-        //         let clipAction = mixer.clipAction( anims[ idx ] );
-        //         clipAction.play();
-        //     }
-        //     this.model_mixers.push(mixer);
-        // }
-        // spawned.model.tick = (delta) => mixer.update(delta);
+
+        console.log(`FISHY LENGTH: ${this.fishies.length}`)
         this.fishies.push(spawned)
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned);
@@ -71,21 +62,21 @@ export class GameEngine {
             if (char_info.mixer){
                 char_info.mixer.update(dt)
             }
-            let direction: THREE.Vector3 = cur_fish.direction.clone();
-            console.log(`direction:`)
-            console.log(direction)
-            let displace = direction.multiplyScalar(char_info.relaxSpeed);
-            console.log("displace")
-            console.log(displace)
-            let pos = model.position; 
-            // model.position.copy(pos);
-            console.log("BEFORE")
-            console.log(pos)
-            pos = pos.add(displace);
-            console.log("AFTER")
-            console.log(pos)
-            cur_fish.model.position.set(pos.x, pos.y, pos.z);
-            cur_fish.body.position.set(pos.x, pos.y, pos.z);
+            // let direction: THREE.Vector3 = cur_fish.direction.clone();
+            // console.log(`direction:`)
+            // console.log(direction)
+            // let displace = direction.multiplyScalar(char_info.relaxSpeed);
+            // console.log("displace")
+            // console.log(displace)
+            // let pos = model.position; 
+            // // model.position.copy(pos);
+            // console.log("BEFORE")
+            // console.log(pos)
+            // pos = pos.add(displace);
+            // console.log("AFTER")
+            // console.log(pos)
+            // cur_fish.model.position.set(pos.x, pos.y, pos.z);
+            // cur_fish.body.position.set(pos.x, pos.y, pos.z);
             // this.fishies[idx].update(dt)
         }
     }

@@ -59,7 +59,7 @@ export class RenderEngine {
     pointLight: THREE.PointLight;
     sunLight: THREE.DirectionalLight;
     camera: THREE.PerspectiveCamera;
-    characters: Character[];
+    characters: Character[] = [];
     renderer: THREE.WebGLRenderer;
     sizes: any;
     composer: any;
