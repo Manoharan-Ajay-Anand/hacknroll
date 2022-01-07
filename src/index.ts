@@ -6,6 +6,7 @@ import { Character, CharacterInfo, FRONT } from './model/character';
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { GameEngine } from './engine/game';
+import * as keyboardjs from 'keyboardjs';
 const fishType = [
     'catfishAnim',
     "croc",
@@ -84,6 +85,15 @@ async function init() {
         'raft', new THREE.Vector3(), 
         new THREE.Euler(), new THREE.Vector3()
     );
+    keyboardjs.bind('space', () => {
+        let rot = renderEngine.camera.quaternion;
+        let velocity = new THREE.Vector3(0, 0, -50);
+        velocity.applyQuaternion(rot);
+        gameEngine.spawnCharacter(
+            'machi', renderEngine.camera.position, 
+            new THREE.Euler(), velocity 
+        );
+    });
     let count = 0;
     setInterval(() => {
         if (count == 50) {

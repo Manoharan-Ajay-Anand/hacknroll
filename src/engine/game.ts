@@ -51,7 +51,6 @@ export class GameEngine {
         this.physicsEngine.addCharacter(spawned);
     }
 
-
     updateAnimalMovement(dt: number){
         
         for(let idx in this.fishies){
