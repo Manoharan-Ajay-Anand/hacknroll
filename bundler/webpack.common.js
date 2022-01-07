@@ -1,10 +1,14 @@
+
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 
 module.exports = {
-    entry: path.resolve(__dirname, '../src/script.js'),
+    entry: path.resolve(__dirname, '../src/index.ts'),
+    resolve: {
+        extensions: [ '.tsx', '.ts', '...' ],
+    },
     output:
     {
         filename: 'bundle.[contenthash].js',
@@ -43,6 +47,13 @@ module.exports = {
                     'babel-loader'
                 ]
             },
+            
+            // TS
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
 
             // CSS
             {
@@ -79,6 +90,21 @@ module.exports = {
                         options:
                         {
                             outputPath: 'assets/fonts/'
+                        }
+                    }
+                ]
+            },
+
+            // Models
+            {
+                test: /\.gltf$/,
+                use:
+                [
+                    {
+                        loader: 'file-loader',
+                        options:
+                        {
+                            outputPath: 'assets/models/'
                         }
                     }
                 ]
