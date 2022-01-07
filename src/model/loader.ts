@@ -6,6 +6,11 @@ import { Character, CharacterInfo } from './character';
 const loader = new GLTFLoader();
 
 export default {
+    loadEnv(): Promise<THREE.Group> {
+        return loader.loadAsync(`/env.gltf`).then(gltf => {
+            return gltf.scene;
+        });
+    },
     loadCharacter(charInfo: CharacterInfo): Promise<Character> {
         return loader.loadAsync(`/${charInfo.name}.gltf`).then(gltf => {
             let model = gltf.scene;

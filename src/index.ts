@@ -3,15 +3,12 @@ import ModelLoader from './model/loader'
 import { RenderEngine } from './engine/render'
 import { PhysicsEngine } from './engine/physics';
 import * as keyboardJS from 'keyboardjs'
-import { CharacterInfo, Character } from './model/character';
+import { CharacterInfo } from './model/character';
 import * as THREE from 'three'
-
-const modelNames = ['catfishAnim', 'croc', 'env', 'raft', 'swordfish', 'tuna', 'turtle'];
 
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo('catfishAnim', 10, new THREE.Vector3()),
     new CharacterInfo('croc', 10, new THREE.Vector3(0, 5, 0)),
-    new CharacterInfo('env', 0, new THREE.Vector3()),
     new CharacterInfo('raft', 10, new THREE.Vector3()),
     new CharacterInfo('swordfish', 10, new THREE.Vector3()),
     new CharacterInfo('tuna', 10, new THREE.Vector3()),
@@ -25,10 +22,12 @@ function startAnimation(physicsEngine: PhysicsEngine) {
 
 async function init() {
     const characters = await Promise.all(characterInfos.map(info => ModelLoader.loadCharacter(info)));
+    const env = await ModelLoader.loadEnv();
     const renderEngine = new RenderEngine(
         document.querySelector('canvas.webgl'), 
         { width: window.innerWidth, height: window.innerHeight },
-        characters
+        characters,
+        env
     );
     const physicsEngine = new PhysicsEngine(renderEngine, characters);
     window.addEventListener('resize', () => {
