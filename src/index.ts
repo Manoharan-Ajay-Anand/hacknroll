@@ -2,8 +2,9 @@ import './style.css'
 import ModelLoader from './model/loader'
 import { RenderEngine } from './engine/render'
 import { PhysicsEngine } from './engine/physics';
-import { CharacterInfo } from './model/character';
-import * as THREE from 'three'
+import { Character, CharacterInfo } from './model/character';
+import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
 import { GameEngine } from './engine/game';
 
 const characterInfos: Array<CharacterInfo> = [
@@ -73,15 +74,29 @@ async function init() {
     // });
     await gameEngine.loadCharacters(characterInfos);
     startAnimation(gameEngine);
-    gameEngine.spawnCharacter('raft', new THREE.Vector3());
+    gameEngine.spawnCharacter(
+        'raft', new THREE.Vector3(), 
+        new THREE.Euler(), new THREE.Vector3()
+    );
+    let count = 0;
     setInterval(() => {
+        if (count == 50) {
+            return;
+        }
         let pos_x = getRandomArbitrary(-80, 80);
         let pos_z = getRandomArbitrary(-80, 80);
+        let rot_x = getRandomArbitrary(0, Math.PI);
+        let rot = new THREE.Euler(0, rot_x, 0);
+        let velocity = new THREE.Vector3(3, 0, 0);
+        velocity.applyEuler(rot); 
         gameEngine.spawnCharacter(
             'catfishAnim', 
-            new THREE.Vector3(pos_x, -4, pos_z)
+            new THREE.Vector3(pos_x, -4, pos_z),
+            rot,
+            velocity
         );
-    }, 2000);
+        count++;
+    }, 1000);
 }
 
 init();

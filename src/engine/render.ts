@@ -59,6 +59,7 @@ export class RenderEngine {
     pointLight: THREE.PointLight;
     sunLight: THREE.DirectionalLight;
     camera: THREE.PerspectiveCamera;
+    characters: Character[];
     renderer: THREE.WebGLRenderer;
     sizes: any;
     composer: any;
@@ -92,8 +93,10 @@ export class RenderEngine {
         // this.sunLight.position.set(0, 0, 1000);
         // // this.sunLight.rotation.x = Math.PI / 2;
         // this.scene.add(this.sunLight);
+        this.characters = [];
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
         this.camera.position.set(0, 10, 10);
+        this.camera.lookAt(new THREE.Vector3(0, 10, 0))
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
@@ -409,6 +412,7 @@ export class RenderEngine {
 
     addCharacter(character: Character) {
         this.scene.add(character.model);
+        this.characters.push(character);
     }
 
     resize(sizes: {width: number, height: number}) {
@@ -449,7 +453,6 @@ export class RenderEngine {
         // this.renderer.render(this.scene, this.camera);
         // Animation Loop
         this.renderLogic();
-        
     }
 
 }

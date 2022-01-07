@@ -25,10 +25,10 @@ export class Character {
     info: CharacterInfo;
     body: CANNON.Body;
     model: THREE.Object3D;
-    animation: any;
+    animation: THREE.AnimationClip[];
     
 
-    constructor(info: CharacterInfo, body: CANNON.Body, model: THREE.Object3D, animation: any) {
+    constructor(info: CharacterInfo, body: CANNON.Body, model: THREE.Object3D, animation: THREE.AnimationClip[]) {
         this.info = info;
         this.body = body;
         this.model = model;
