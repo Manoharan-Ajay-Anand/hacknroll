@@ -3,6 +3,7 @@ import ModelLoader from './model/loader'
 import { RenderEngine } from './engine/render'
 import { PhysicsEngine } from './engine/physics';
 import { Character, CharacterInfo, FRONT } from './model/character';
+import { AudioManager,AudioInfo } from "./engine/audio"
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { GameEngine } from './engine/game';
@@ -41,6 +42,11 @@ const characterInfos: Array<CharacterInfo> = [
     ),
 ];
 
+const audioInfo: Array<AudioInfo> = [
+    new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true),
+    new AudioInfo("WeeeeeShort.wav", "shoot",false, false, 0.75, false)
+]
+
 function startAnimation(gameEngine: GameEngine) {
     gameEngine.loop()
     window.requestAnimationFrame(() => startAnimation(gameEngine));
@@ -60,7 +66,12 @@ async function init() {
     );
     const physicsEngine = new PhysicsEngine();
     const gameEngine = new GameEngine(renderEngine, physicsEngine);
-    
+    const audioManager = new AudioManager(audioInfo);
+
+    document.getElementById("play_audio").onclick = function () {
+        audioManager.play_by_name("ambi1");
+    }
+
     window.addEventListener('resize', () => {
         renderEngine.resize({ width: window.innerWidth, height: window.innerHeight });
     });
@@ -93,6 +104,8 @@ async function init() {
             'machi', renderEngine.camera.position, 
             new THREE.Euler(), velocity 
         );
+        // play shooting audio
+        audioManager.play_by_name("shoot");
     });
     let count = 0;
     setInterval(() => {
@@ -113,6 +126,9 @@ async function init() {
         );
         count++;
     }, 2000);
+
+    
+
 }
 
 init();
