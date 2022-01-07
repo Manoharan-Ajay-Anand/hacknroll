@@ -2,7 +2,7 @@ import './style.css'
 import ModelLoader from './model/loader'
 import { RenderEngine } from './engine/render'
 import { PhysicsEngine } from './engine/physics';
-import { CharacterInfo } from './model/character';
+import { CharacterInfo,FRONT } from './model/character';
 import * as THREE from 'three'
 import { GameEngine } from './engine/game';
 const fishType = [
@@ -14,28 +14,28 @@ const fishType = [
   ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1)
+        'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1), 3, 8,FRONT.x,
     ),
     new CharacterInfo(
-        'croc', 10, 1, new THREE.Vector3(1, 1, 1)
+        'croc', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.z
     ),
     new CharacterInfo(
-        'raft', 10, 10, new THREE.Vector3(1, 1, 1)
+        'raft', 10, 10, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x,
     ),
     new CharacterInfo(
-        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1)
+        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1), 15, 25,FRONT.z
     ),
     new CharacterInfo(
-        'tuna', 10, 1, new THREE.Vector3(1, 1, 1)
+        'tuna', 10, 1, new THREE.Vector3(1, 1, 1), 10, 15,FRONT.x
     ),
     new CharacterInfo(
-        'turtle', 10, 1, new THREE.Vector3(1, 1, 1)
+        'turtle', 10, 1, new THREE.Vector3(1, 1, 1), 4, 8,FRONT.z
     ),
     new CharacterInfo(
-        'Derringer', 10, 1, new THREE.Vector3(1, 1, 1)
+        'Derringer', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(1, 1, 1)
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
 ];
 

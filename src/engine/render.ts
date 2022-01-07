@@ -92,7 +92,7 @@ export class RenderEngine {
         // this.sunLight.position.set(0, 0, 1000);
         // // this.sunLight.rotation.x = Math.PI / 2;
         // this.scene.add(this.sunLight);
-        this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
+        this.camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 10000);
         this.camera.position.set(0, 10, 10);
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});

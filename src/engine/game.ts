@@ -39,7 +39,9 @@ export class GameEngine {
         }
         let character = this.characterMap.get(name);
         let spawned = ModelLoader.cloneCharacter(character);
+
         spawned.model.position.copy(pos);
+        
         spawned.body.position.set(pos.x, pos.y, pos.z);
         // run the animation
         // if (character.info.hasAnimation == true){
@@ -64,12 +66,27 @@ export class GameEngine {
         
         for(let idx in this.fishies){
             let cur_fish = this.fishies[idx]
-            let info = cur_fish.info;
+            let model = cur_fish.model;
+            let char_info = cur_fish.info;
             // console.log(info)
-            if (info.mixer){
-                info.mixer.update(dt)
+            if (char_info.mixer){
+                char_info.mixer.update(dt)
             }
-            
+            let direction: THREE.Vector3 = cur_fish.direction.clone();
+            console.log(`direction:`)
+            console.log(direction)
+            let displace = direction.multiplyScalar(char_info.relaxSpeed);
+            console.log("displace")
+            console.log(displace)
+            let pos = model.position; 
+            // model.position.copy(pos);
+            console.log("BEFORE")
+            console.log(pos)
+            pos = pos.add(displace);
+            console.log("AFTER")
+            console.log(pos)
+            cur_fish.model.position.set(pos.x, pos.y, pos.z);
+            cur_fish.body.position.set(pos.x, pos.y, pos.z);
             // this.fishies[idx].update(dt)
         }
     }
