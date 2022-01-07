@@ -6,7 +6,7 @@ import { Character, CharacterInfo, FRONT } from './model/character';
 import { AudioManager,AudioInfo } from "./engine/audio"
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
-import { GameEngine } from './engine/game';
+import { GameEngine, MODE } from './engine/game';
 import * as keyboardjs from 'keyboardjs';
 
 
@@ -45,8 +45,10 @@ const characterInfos: Array<CharacterInfo> = [
 ];
 
 const audioInfo: Array<AudioInfo> = [
-    new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true),
-    new AudioInfo("WeeeeeShort.wav", "shoot",false, false, 0.75, false)
+    new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true,true),
+    new AudioInfo("ambi2.m4a","ambi2",false,true,0.5,false,true),
+    new AudioInfo("ambi3.m4a","ambi3",false,true,0.5,false,true),
+    new AudioInfo("WeeeeeShort.wav", "shoot",false, false, 0.75, false,false)
 ]
 
 function startAnimation(gameEngine: GameEngine) {
@@ -80,6 +82,18 @@ async function init() {
 
     document.getElementById("play_audio").onclick = function () {
         audioManager.play_by_name("ambi1");
+    }
+
+    document.getElementById("match_mode").onclick = function (){
+        gameEngine.set_mode(MODE.MATCHING);
+        audioManager.play_by_name("ambi3");
+
+        // just testing the flow
+        setTimeout(()=>{
+            
+            audioManager.play_by_name("ambi2");
+        },5000)
+        
     }
 
     window.addEventListener('resize', () => {

@@ -11,8 +11,9 @@ export class AudioInfo{
     autoPlay: boolean = false;
     buffer: AudioBuffer;
     source: THREE.Audio;
+    isAmbi: boolean = false;
 
-    constructor(path: string,name: string, addToCam=false, isLoop:boolean=false,vol:number = 0.5, autoPlay:boolean = false){
+    constructor(path: string,name: string, addToCam=false, isLoop:boolean=false,vol:number = 0.5, autoPlay:boolean = false, isAmbi:boolean = false){
         this.path = AUDIO_DIR + path;
         this.addToCam = addToCam;
         this.isLoop = isLoop;
@@ -20,6 +21,7 @@ export class AudioInfo{
         this.autoPlay = autoPlay;
         this.buffer = null;
         this.name = name;
+        this.isAmbi = isAmbi;
     }
 
     set_buffer(buf: AudioBuffer){
@@ -44,6 +46,7 @@ export class AudioManager{
     global_listener: THREE.AudioListener;
     audios: AudioInfo[]
     name2audio: any
+    currentAmbi: AudioInfo
 
     constructor(audios: AudioInfo[] ){//paths: string[]
         // this.paths = paths;
@@ -61,10 +64,12 @@ export class AudioManager{
             let path = audio.path;
             console.log(console.log(audio.name))
             this.name2audio[audio.name] = audio;
+            
             this.audio_loader.load(path,(buffer: AudioBuffer)=>{
                 audio.set_buffer(buffer);
                 if (audio.autoPlay){
                     this.play_audio(audio); 
+
                     // this.global_source.setBuffer  (buffer);
                     // if (audio.isLoop){
                     //     this.global_source.setLoop(true);
@@ -91,7 +96,14 @@ export class AudioManager{
         if (cur_source.isPlaying){
             cur_source.stop()
         }
-        
+        if (audio.isAmbi){
+            if (this.currentAmbi){
+                if (this.currentAmbi.source.isPlaying){
+                    this.currentAmbi.source.stop();
+                }
+            }
+            this.currentAmbi = audio
+        }
         cur_source.setBuffer(audio.buffer);
         if (audio.isLoop){
             cur_source.setLoop(true);

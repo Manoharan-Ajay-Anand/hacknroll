@@ -36,6 +36,10 @@ export class GameEngine {
         return this.username;
     }
 
+    set_mode(mode: MODE){
+        this.mode = mode
+    }
+
     async loadCharacters(infos: CharacterInfo[]) {
         const characters = await Promise.all(
             infos.map(info => ModelLoader.loadCharacter(info))
