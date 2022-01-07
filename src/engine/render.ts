@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { Character } from '../model/character';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 
 
@@ -22,6 +23,8 @@ export class RenderEngine {
         }
         this.env = env;
         this.scene.add(env);
+        let ambi_light_color = new THREE.Color(0xffffff);   //0x2a1a3a
+        this.scene.add(new THREE.AmbientLight(ambi_light_color, 0.75));
         this.pointLight = new THREE.PointLight(0xffffff, 1, 100);
         this.pointLight.position.set(0, 0, 10);
         this.scene.add(this.pointLight);
@@ -33,6 +36,11 @@ export class RenderEngine {
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+        let controls = new OrbitControls(this.camera, this.renderer.domElement);
+        controls.update();
     }
 
     resize(sizes: {width: number, height: number}) {
@@ -46,7 +54,7 @@ export class RenderEngine {
         this.renderer.render(this.scene, this.camera);
     }
 
-    moveCamera(vec: { x: number, y: number, z: number }) {
-        this.camera.position.add(new THREE.Vector3(vec.x, vec.y, vec.z));
-    }
+    // moveCamera(vec: { x: number, y: number, z: number }) {
+    //     this.camera.position.add(new THREE.Vector3(vec.x, vec.y, vec.z));
+    // }
 }

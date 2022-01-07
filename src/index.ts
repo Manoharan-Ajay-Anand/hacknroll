@@ -33,21 +33,21 @@ async function init() {
     window.addEventListener('resize', () => {
         renderEngine.resize({ width: window.innerWidth, height: window.innerHeight });
     });
-    keyboardJS.bind('w', () => {
-        renderEngine.moveCamera({x: 0, y: 0, z: -1});
-    });
+    // keyboardJS.bind('w', () => {
+    //     renderEngine.moveCamera({x: 0, y: 0, z: -1});
+    // });
     
-    keyboardJS.bind('s', () => {
-        renderEngine.moveCamera({x: 0, y: 0, z: 1});
-    });
+    // keyboardJS.bind('s', () => {
+    //     renderEngine.moveCamera({x: 0, y: 0, z: 1});
+    // });
     
-    keyboardJS.bind('a', () => {
-        renderEngine.moveCamera({x: -1, y: 0, z: 0});
-    });
+    // keyboardJS.bind('a', () => {
+    //     renderEngine.moveCamera({x: -1, y: 0, z: 0});
+    // });
     
-    keyboardJS.bind('d', () => {
-        renderEngine.moveCamera({x: 1, y: 0, z: 0});
-    });
+    // keyboardJS.bind('d', () => {
+    //     renderEngine.moveCamera({x: 1, y: 0, z: 0});
+    // });
     
     startAnimation(physicsEngine);
 }
