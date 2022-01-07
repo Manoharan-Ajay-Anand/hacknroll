@@ -8,7 +8,7 @@ import { GameEngine } from './engine/game';
 
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(0, 10, 0), new THREE.Vector3(1, 1, 1)
+        'catfishAnim', 10, 1, new THREE.Vector3(30, -1, 0), new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
         'croc', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
@@ -36,6 +36,10 @@ const characterInfos: Array<CharacterInfo> = [
 function startAnimation(gameEngine: GameEngine) {
     gameEngine.loop()
     window.requestAnimationFrame(() => startAnimation(gameEngine));
+}
+
+function getRandomArbitrary(min: number, max: number) {
+    return Math.random() * (max - min) + min;
 }
 
 async function init() {
@@ -69,6 +73,14 @@ async function init() {
     // });
     await gameEngine.loadCharacters(characterInfos);
     startAnimation(gameEngine);
+    setInterval(() => {
+        let pos_x = getRandomArbitrary(-80, 80);
+        let pos_z = getRandomArbitrary(-80, 80);
+        gameEngine.spawnCharacter(
+            'catfishAnim', 
+            new THREE.Vector3(pos_x, -1, pos_z)
+        );
+    }, 2000);
 }
 
 init();

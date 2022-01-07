@@ -19,13 +19,11 @@ export class CharacterInfo {
 }
 
 export class Character {
-    name: string;
     info: CharacterInfo;
     body: CANNON.Body;
-    model: THREE.Group;
+    model: THREE.Object3D;
 
-    constructor(name: string, info: CharacterInfo, body: CANNON.Body, model: THREE.Group) {
-        this.name = name;
+    constructor(info: CharacterInfo, body: CANNON.Body, model: THREE.Object3D) {
         this.info = info;
         this.body = body;
         this.model = model;

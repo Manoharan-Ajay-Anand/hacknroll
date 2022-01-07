@@ -24,18 +24,20 @@ export class GameEngine {
             infos.map(info => ModelLoader.loadCharacter(info))
         );
         for (const character of characters) {
-            this.renderEngine.addCharacter(character);
-            this.physicsEngine.addCharacter(character);
-            this.characterMap.set(character.name, character);
+            //this.renderEngine.addCharacter(character);
+            //this.physicsEngine.addCharacter(character);
+            this.characterMap.set(character.info.name, character);
         }
     }
 
-    spawnCharacter(name: string) {
+    spawnCharacter(name: string, pos: THREE.Vector3) {
         if (!this.characterMap.has(name)) {
             return;
         }
         let character = this.characterMap.get(name);
         let spawned = ModelLoader.cloneCharacter(character);
+        spawned.model.position.copy(pos);
+        spawned.body.position.set(pos.x, pos.y, pos.z);
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned);
     }

@@ -79,9 +79,7 @@ export class RenderEngine {
         // this.pointLight.position.set(0, 0, 10);
         this.scene.add(this.pointLight);
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
-        this.camera.position.x = 0;
-        this.camera.position.y = 0;
-        this.camera.position.z = 10;
+        this.camera.position.set(0, 10, 10);
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
@@ -420,7 +418,7 @@ export class RenderEngine {
     }
 
     render() {
-        // this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.camera);
         // Animation Loop
         this.renderLogic();
         
