@@ -2,34 +2,52 @@ import './style.css'
 import ModelLoader from './model/loader'
 import { RenderEngine } from './engine/render'
 import { PhysicsEngine } from './engine/physics';
-import * as keyboardJS from 'keyboardjs'
 import { CharacterInfo } from './model/character';
 import * as THREE from 'three'
+import { GameEngine } from './engine/game';
 
 const characterInfos: Array<CharacterInfo> = [
-    new CharacterInfo('catfishAnim', 10, new THREE.Vector3()),
-    new CharacterInfo('croc', 10, new THREE.Vector3(0, 5, 0)),
-    new CharacterInfo('raft', 10, new THREE.Vector3()),
-    new CharacterInfo('swordfish', 10, new THREE.Vector3()),
-    new CharacterInfo('tuna', 10, new THREE.Vector3()),
-    new CharacterInfo('turtle', 10, new THREE.Vector3()),
+    new CharacterInfo(
+        'catfishAnim', 10, 1, new THREE.Vector3(0, 10, 0), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'croc', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'raft', 10, 10, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'swordfish', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'tuna', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'turtle', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'Derringer', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
+    new CharacterInfo(
+        'machi', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+    ),
 ];
 
-function startAnimation(physicsEngine: PhysicsEngine) {
-    physicsEngine.animate();
-    window.requestAnimationFrame(() => startAnimation(physicsEngine));
+function startAnimation(gameEngine: GameEngine) {
+    gameEngine.loop()
+    window.requestAnimationFrame(() => startAnimation(gameEngine));
 }
 
 async function init() {
-    const characters = await Promise.all(characterInfos.map(info => ModelLoader.loadCharacter(info)));
     const env = await ModelLoader.loadEnv();
     const renderEngine = new RenderEngine(
         document.querySelector('canvas.webgl'), 
         { width: window.innerWidth, height: window.innerHeight },
-        characters,
         env
     );
-    const physicsEngine = new PhysicsEngine(renderEngine, characters);
+    const physicsEngine = new PhysicsEngine();
+    const gameEngine = new GameEngine(renderEngine, physicsEngine);
+    
     window.addEventListener('resize', () => {
         renderEngine.resize({ width: window.innerWidth, height: window.innerHeight });
     });
@@ -48,8 +66,8 @@ async function init() {
     // keyboardJS.bind('d', () => {
     //     renderEngine.moveCamera({x: 1, y: 0, z: 0});
     // });
-    
-    startAnimation(physicsEngine);
+    await gameEngine.loadCharacters(characterInfos);
+    startAnimation(gameEngine);
 }
 
 init();
