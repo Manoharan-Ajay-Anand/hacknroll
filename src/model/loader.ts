@@ -23,10 +23,7 @@ export default {
                 shape: new CANNON.Box(new CANNON.Vec3(halfExtents.x, halfExtents.y, halfExtents.z)),
                 collisionResponse: false
             });
-            let startPos = charInfo.startPos;
             model.scale.setScalar(charInfo.scale);
-            model.position.copy(startPos);
-            body.position.set(startPos.x, startPos.y, startPos.z);
             return new Character(charInfo, body, model);
         });
     },

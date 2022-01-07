@@ -8,28 +8,28 @@ import { GameEngine } from './engine/game';
 
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(30, -1, 0), new THREE.Vector3(1, 1, 1)
+        'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'croc', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'croc', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'raft', 10, 10, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'raft', 10, 10, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'swordfish', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'tuna', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'tuna', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'turtle', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'turtle', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'Derringer', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'Derringer', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(), new THREE.Vector3(1, 1, 1)
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1)
     ),
 ];
 
