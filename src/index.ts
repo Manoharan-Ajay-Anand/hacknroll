@@ -40,6 +40,7 @@ function startAnimation(gameEngine: GameEngine) {
 
 async function init() {
     const env = await ModelLoader.loadEnv();
+    // const water = await ModelLoader.loadWater();water
     const renderEngine = new RenderEngine(
         document.querySelector('canvas.webgl'), 
         { width: window.innerWidth, height: window.innerHeight },
