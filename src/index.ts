@@ -73,12 +73,13 @@ async function init() {
     // });
     await gameEngine.loadCharacters(characterInfos);
     startAnimation(gameEngine);
+    gameEngine.spawnCharacter('raft', new THREE.Vector3());
     setInterval(() => {
         let pos_x = getRandomArbitrary(-80, 80);
         let pos_z = getRandomArbitrary(-80, 80);
         gameEngine.spawnCharacter(
             'catfishAnim', 
-            new THREE.Vector3(pos_x, -1, pos_z)
+            new THREE.Vector3(pos_x, -4, pos_z)
         );
     }, 2000);
 }
