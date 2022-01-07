@@ -24,18 +24,32 @@ export default {
                 collisionResponse: false
             });
             model.scale.setScalar(charInfo.scale);
-            return new Character(charInfo, body, model);
+            //Animation
+            console.log("ANIMATIONs")
+            console.log(charInfo.name)
+            console.log(gltf.animations)
+            let animations:any[] = []
+            if (gltf.animations && gltf.animations.length > 0) {
+                console.log("Set has animation")
+                // let mixer = new THREE.AnimationMixer( gltf.scene );
+                // var action = mixer.clipAction( gltf.animations[ 0 ] );
+	            // action.play();
+                charInfo.set_has_anim(true);
+                animations = gltf.animations;
+            }
+            return new Character(charInfo, body, model, animations);
         });
     },
     cloneCharacter(character: Character) {
         let info = character.info;
         let halfExtents = info.halfExtents;
+        let animation = character.animation;
         let model = SkeletonUtils.clone(character.model);
         let body = new CANNON.Body({
             mass: info.mass,
             shape: new CANNON.Box(new CANNON.Vec3(halfExtents.x, halfExtents.y, halfExtents.z)),
             collisionResponse: false
         }); 
-        return new Character(info, body, model);
+        return new Character(info, body, model, animation);
     }
 };

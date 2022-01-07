@@ -290,7 +290,7 @@ export class RenderEngine {
             // console.log(shaders[2])
             let utils = shaders[2]
             plane_mat.onBeforeCompile = (shader:any) => {
-                console.log("onBeforeCompile")
+                // console.log("onBeforeCompile")
                 for (let i in utils){
                     for (let j in utils){
                     const re = new RegExp(`^(?!\/\/)#include <${utils[j]["name"]}>`, 'gm')
@@ -304,14 +304,14 @@ export class RenderEngine {
                 }
                 for (let idx in utils){
                     let util = utils[idx]
-                    console.log(util["name"])
+                    // console.log(util["name"])
                     const re = new RegExp(`^(?!\/\/)#include <${util["name"]}>`, 'gm')
                     const content = util["content"]
                     shader.vertexShader = shader.vertexShader.replace(
                         re,
                         content
                     )
-                    console.log(`Replacing fragment`)
+                    // console.log(`Replacing fragment`)
                     shader.fragmentShader = shader.fragmentShader.replace(
                         re,
                         content
@@ -366,7 +366,7 @@ export class RenderEngine {
             plane_mat2.uniformsNeedUpdate = true;
             let utils = shaders[2]
             plane_mat2.onBeforeCompile = (shader:any) => {
-                console.log("onBeforeCompile")
+                // console.log("onBeforeCompile")
                 for (let i in utils){
                     for (let j in utils){
                     const re = new RegExp(`^(?!\/\/)#include <${utils[j]["name"]}>`, 'gm')
@@ -380,14 +380,14 @@ export class RenderEngine {
                 }
                 for (let idx in utils){
                     let util = utils[idx]
-                    console.log(util["name"])
+                    // console.log(util["name"])
                     const re = new RegExp(`^(?!\/\/)#include <${util["name"]}>`, 'gm')
                     const content = util["content"]
                     shader.vertexShader = shader.vertexShader.replace(
                         re,
                         content
                     )
-                    console.log(`Replacing fragment`)
+                    // console.log(`Replacing fragment`)
                     shader.fragmentShader = shader.fragmentShader.replace(
                         re,
                         content
