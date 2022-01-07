@@ -7,9 +7,9 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { GUI } from "dat.gui";
 
 const bloom_params = {
-    exposure: 0.1,
+    exposure: 0.2,
     bloomStrength: 0.2,//0.9,
-    bloomThreshold: 0.27,//,0.5,
+    bloomThreshold: 0.18,//,0.5,
     bloomRadius: 0
 };
 
@@ -56,6 +56,7 @@ export class RenderEngine {
     scene: THREE.Scene;
     env: THREE.Group;
     pointLight: THREE.PointLight;
+    sunLight: THREE.DirectionalLight;
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
     sizes: any;
@@ -74,10 +75,14 @@ export class RenderEngine {
         this.env = env;
         this.scene.add(env);
         let ambi_light_color = new THREE.Color(0xffffff);   //0x2a1a3a
-        this.scene.add(new THREE.AmbientLight(ambi_light_color, 0.75));
-        // this.pointLight = new THREE.PointLight(0xffffff, 1, 100);
-        // this.pointLight.position.set(0, 0, 10);
-        this.scene.add(this.pointLight);
+        this.scene.add(new THREE.AmbientLight(ambi_light_color, 3.0));
+        // this.pointLight = new THREE.PointLight(0xffffff, 100);
+        // this.pointLight.position.set(0, 0, 100);
+        // this.scene.add(this.pointLight);
+        // this.sunLight = new THREE.DirectionalLight(0xffffff, 10);
+        // this.sunLight.position.set(0, 0, 1000);
+        // // this.sunLight.rotation.x = Math.PI / 2;
+        // this.scene.add(this.sunLight);
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
         this.camera.position.x = 0;
         this.camera.position.y = 0;
@@ -89,6 +94,7 @@ export class RenderEngine {
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+        this.renderer.physicallyCorrectLights = true;
 
         const renderScene = new RenderPass( this.scene, this.camera );
 
@@ -379,7 +385,7 @@ export class RenderEngine {
                 }
             }
             const plane:THREE.Object3D = new THREE.Mesh(plane_geom, plane_mat2);
-            plane.position.z-= (scale / 2);
+            plane.position.y-= (scale);
             plane.rotation.x = Math.PI / 2;
             plane.scale.set(scale,scale,scale);
             // console.log(`plane.rotation: ${plane.rotation}`)
