@@ -117,7 +117,7 @@ void main() {
 
     vec3 fac = mix(color, vec3(1.0) - color, 1.0);//rgb2hsv();
     float lumi = dot(fac, vec3(0.299, 0.587, 0.114));   //0.299, 0.587, 0.114     0.2126, 0.7152, 0.0722
-    vec4 emi_color = color4 * 1.25;
+    vec4 emi_color = color4 * 1.25;  //1.25 2.
     vec4 trans_col = vec4(0.);
 
     color4 = mix(emi_color,trans_col,lumi);
