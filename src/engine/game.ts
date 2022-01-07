@@ -33,16 +33,15 @@ export class GameEngine {
         }
     }
 
-    spawnCharacter(name: string, pos: THREE.Vector3) {
+    spawnCharacter(name: string, pos: THREE.Vector3, rot: THREE.Euler, velocity: THREE.Vector3) {
         if (!this.characterMap.has(name)) {
             return;
         }
         let character = this.characterMap.get(name);
         let spawned = ModelLoader.cloneCharacter(character);
-
-        spawned.model.position.copy(pos);
-        
         spawned.body.position.set(pos.x, pos.y, pos.z);
+        spawned.body.velocity.set(velocity.x, velocity.y, velocity.z);
+        spawned.body.quaternion.setFromEuler(rot.x, rot.y, rot.z);
         // run the animation
         // if (character.info.hasAnimation == true){
         //     console.log("HAS ANIMATION")
