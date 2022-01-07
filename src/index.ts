@@ -8,6 +8,8 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { GameEngine } from './engine/game';
 import * as keyboardjs from 'keyboardjs';
+
+
 const fishType = [
     'catfishAnim',
     "croc",
@@ -57,6 +59,10 @@ function getRandomArbitrary(min: number, max: number) {
 }
 
 async function init() {
+
+    
+
+
     const env = await ModelLoader.loadEnv();
     // const water = await ModelLoader.loadWater();water
     const renderEngine = new RenderEngine(
@@ -66,6 +72,10 @@ async function init() {
     );
     const physicsEngine = new PhysicsEngine();
     const gameEngine = new GameEngine(renderEngine, physicsEngine);
+
+    let username = gameEngine.get_my_name();
+    document.getElementById("userName").innerHTML = username;
+
     const audioManager = new AudioManager(audioInfo);
 
     document.getElementById("play_audio").onclick = function () {

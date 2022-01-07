@@ -94,8 +94,8 @@ export class RenderEngine {
         // // this.sunLight.rotation.x = Math.PI / 2;
         // this.scene.add(this.sunLight);
         this.camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 10000);
-        this.camera.position.set(0, 10, 10);
-        this.camera.lookAt(new THREE.Vector3(0, 10, 0))
+        this.camera.position.set(-50, 10, 75);
+        // this.camera.lookAt(new THREE.Vector3(1000, 20, 300))
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
@@ -165,6 +165,7 @@ export class RenderEngine {
 
 
         let controls = new OrbitControls(this.camera, this.renderer.domElement);
+        controls.target = new THREE.Vector3(25, 10, 30);
         controls.update();
 
 

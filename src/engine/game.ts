@@ -3,9 +3,15 @@ import { PhysicsEngine } from "./physics";
 import { RenderEngine } from "./render";
 import * as THREE from "three";
 import ModelLoader from '../model/loader';
+import { generateName } from '../utility'
 
 const timeStep = 1 / 60;
-
+export enum MODE {
+    MENU,
+    MATCHING,
+    INGAME,
+    END
+}
 export class GameEngine {
     renderEngine: RenderEngine;
     physicsEngine: PhysicsEngine;
@@ -13,6 +19,8 @@ export class GameEngine {
     clock: THREE.Clock;
     // model_mixers: any[];
     fishies: Character[];
+    mode: MODE;
+    username: string;
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
@@ -20,6 +28,12 @@ export class GameEngine {
         this.clock = new THREE.Clock();
         this.characterMap = new Map();
         this.fishies = [];
+        this.mode = MODE.MENU;
+        this.username = generateName();
+    }
+
+    get_my_name(){
+        return this.username;
     }
 
     async loadCharacters(infos: CharacterInfo[]) {
