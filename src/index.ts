@@ -23,6 +23,7 @@ function startAnimation(physicsEngine: PhysicsEngine) {
 async function init() {
     const characters = await Promise.all(characterInfos.map(info => ModelLoader.loadCharacter(info)));
     const env = await ModelLoader.loadEnv();
+    // const water = await ModelLoader.loadWater();water
     const renderEngine = new RenderEngine(
         document.querySelector('canvas.webgl'), 
         { width: window.innerWidth, height: window.innerHeight },
