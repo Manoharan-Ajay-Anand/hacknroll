@@ -1,18 +1,23 @@
 import * as THREE from 'three'
-import ModelLoader from '../model/loader'
+import { Character } from '../model/character';
+
+
 
 export class RenderEngine {
     canvas: Element;
     scene: THREE.Scene;
-    raft: THREE.Group;
-    catfish: THREE.Group;
+    characters: Character[];
     pointLight: THREE.PointLight;
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
 
-    constructor(canvas: Element, sizes: {width: number, height: number}) {
+    constructor(canvas: Element, sizes: {width: number, height: number}, characters: Character[]) {
         this.canvas = canvas;
         this.scene = new THREE.Scene();
+        this.characters = characters;
+        for (const character of this.characters) {
+            this.scene.add(character.model);
+        }
         this.pointLight = new THREE.PointLight(0xffffff, 1, 100);
         this.pointLight.position.set(0, 0, 10);
         this.scene.add(this.pointLight);
@@ -22,15 +27,8 @@ export class RenderEngine {
         this.camera.position.z = 20;
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
-        this.renderer.setSize(sizes.width, sizes.height)
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    }
-
-    async init() {
-        this.raft = await ModelLoader.loadRaft();
-        this.catfish = await ModelLoader.loadCatFish();
-        this.scene.add(this.raft);
-        this.scene.add(this.catfish);
+        this.renderer.setSize(sizes.width, sizes.height);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     }
 
     resize(sizes: {width: number, height: number}) {
@@ -44,13 +42,7 @@ export class RenderEngine {
         this.renderer.render(this.scene, this.camera);
     }
 
-    setCatfishPosition(pos: { x: number, y: number, z: number }, quat: { x: number, y: number, z: number, w: number }) {
-        this.catfish.position.set(pos.x, pos.y, pos.z);
-        this.catfish.quaternion.set(quat.x, quat.y, quat.z, quat.w);
-    }
-
-    setRaftPosition(pos: { x: number, y: number, z: number }, quat: { x: number, y: number, z: number, w: number }) {
-        this.raft.position.set(pos.x, pos.y, pos.z);
-        this.raft.quaternion.set(quat.x, quat.y, quat.z, quat.w);
+    moveCamera(vec: { x: number, y: number, z: number }) {
+        this.camera.position.add(new THREE.Vector3(vec.x, vec.y, vec.z));
     }
 }

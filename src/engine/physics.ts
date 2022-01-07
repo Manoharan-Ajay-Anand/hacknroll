@@ -1,4 +1,5 @@
 import * as CANNON from "cannon-es";
+import { Character } from "../model/character";
 import { RenderEngine } from "./render";
 
 const timeStep = 1 / 60;
@@ -7,27 +8,26 @@ let lastCallTime: number;
 export class PhysicsEngine {
     renderEngine: RenderEngine;
     world: CANNON.World;
-    catfishBody: CANNON.Body;
-    raftBody: CANNON.Body;
+    characters: Character[];
+    groundBody: CANNON.Body;
 
 
-    constructor(renderEngine: RenderEngine) {
+    constructor(renderEngine: RenderEngine, characters: Character[]) {
         this.renderEngine = renderEngine;
         this.world = new CANNON.World({
             gravity: new CANNON.Vec3(0, -9.82, 0), 
         });
-        this.catfishBody = new CANNON.Body({
-            mass: 5,
-            shape: new CANNON.Sphere(1),
+        this.groundBody = new CANNON.Body({
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Plane()
         });
-        this.catfishBody.position.set(0, 5, 0);
-        this.world.addBody(this.catfishBody);
-        this.raftBody = new CANNON.Body({
-            mass: 10,
-            shape: new CANNON.Sphere(1),
-        });
-        this.raftBody.position.set(0, 5, 0);
-        this.world.addBody(this.raftBody);
+        this.groundBody.position.set(0, 0, 0);
+        this.groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+        this.world.addBody(this.groundBody);
+        this.characters = characters;
+        for (const character of this.characters) {
+            this.world.addBody(character.body);
+        }
     }
 
     animate() {
@@ -38,8 +38,12 @@ export class PhysicsEngine {
             this.world.step(timeStep, time - lastCallTime);
         }
         lastCallTime = time;
-        this.renderEngine.setCatfishPosition(this.catfishBody.position, this.catfishBody.quaternion);
-        this.renderEngine.setRaftPosition(this.raftBody.position, this.raftBody.quaternion);
+        for (const character of this.characters) {
+            let body = character.body;
+            character.model.position.set(body.position.x, body.position.y, body.position.z);
+            character.model.quaternion.set(body.quaternion.x, body.quaternion.y, 
+                body.quaternion.z, body.quaternion.w);
+        } 
         this.renderEngine.render();
     }
 }
