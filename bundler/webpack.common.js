@@ -12,7 +12,8 @@ module.exports = {
     output:
     {
         filename: 'bundle.[contenthash].js',
-        path: path.resolve(__dirname, '../dist')
+        path: path.resolve(__dirname, '../dist'),
+        publicPath: '../assets'
     },
     devtool: 'source-map',
     plugins:
@@ -68,6 +69,7 @@ module.exports = {
             // Images
             {
                 test: /\.(jpg|png|gif|svg)$/,
+                // loader: 'file-loader?name=/images/[name].[ext]' 
                 use:
                 [
                     {
