@@ -19,7 +19,7 @@ const fishType = [
   ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 3
+        'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 4
     ),
     new CharacterInfo(
         'croc', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.z
@@ -40,7 +40,7 @@ const characterInfos: Array<CharacterInfo> = [
         'Derringer', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 3, 2
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 4, 2
     ),
 ];
 
@@ -163,6 +163,9 @@ async function init() {
             (character: Character) => {
                 character.body.velocity.set(0, -10, 0);
                 character.body.angularVelocity.set(-1, 0, 0)
+                setTimeout(() => {
+                    gameEngine.removeCharacter(character);
+                }, 300)
             }
         );
         count++;

@@ -112,6 +112,11 @@ export class GameEngine {
         this.physicsEngine.addCharacter(spawned, detectCollision);
     }
 
+    removeCharacter(character: Character) {
+        this.physicsEngine.removeCharacter(character);
+        this.renderEngine.removeCharacter(character);
+    }
+
     updateAnimalMovement(dt: number){
         
         for(let idx in this.fishies){
