@@ -22,6 +22,7 @@ export class GameEngine {
     mode: MODE;
     username: string;
     menuGUI: any;
+    playerNum: number;
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
@@ -32,6 +33,7 @@ export class GameEngine {
         this.mode = MODE.MENU;
         this.username = generateName();
         this.menuGUI = document.getElementById("menu-title");
+        this.playerNum = 0;
     }
 
     get_my_name(){
@@ -43,6 +45,8 @@ export class GameEngine {
         this.change_state();
     }
 
+    
+
     change_state(){
         if (this.mode == MODE.MENU){
             this.menuGUI.style.display = 'flex';
@@ -52,6 +56,8 @@ export class GameEngine {
         }
         if (this.mode == MODE.INGAME){
             this.renderEngine.add_cross_hair();
+            this.renderEngine.move_player_to_start(this.playerNum);
+            this.renderEngine.change_cam_2_pointlock();
         }
     }
 
