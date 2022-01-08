@@ -75,7 +75,7 @@ export class GameEngine {
 
 
 
-        this.set_peaceful_spawn();
+        this.set_spawn_rush();
         
     }
 
@@ -114,7 +114,6 @@ export class GameEngine {
             velocity,
             (character: Character) => {
                 console.log("BOOM")
-                console.log(character)
                 character.body.velocity.set(0, -10, 0);
                 character.body.angularVelocity.set(-1, 0, 0);
                 console.log(`SCORE: ${this.score}`)
@@ -207,7 +206,11 @@ export class GameEngine {
         let spawned = ModelLoader.cloneCharacter(character);
         spawned.model.position.set(pos.x, pos.y, pos.z);
         spawned.body.position.set(pos.x, pos.y, pos.z);
-        spawned.body.velocity.set(velocity.x, velocity.y, velocity.z);
+
+        let spec_velocity = velocity.clone();
+        console.log(spec_velocity)
+        spec_velocity.multiplyScalar(character.info.panikSpeed);
+        spawned.body.velocity.set(spec_velocity.x, spec_velocity.y, spec_velocity.z);
         spawned.body.quaternion.setFromEuler(rot.x, rot.y, rot.z);
 
         console.log(`FISHY LENGTH: ${this.fishies.length}`)

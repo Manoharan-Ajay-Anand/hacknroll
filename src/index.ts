@@ -28,10 +28,10 @@ const characterInfos: Array<CharacterInfo> = [
         'raft', 10, 10, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x,
     ),
     new CharacterInfo(
-        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1), 15, 25,FRONT.z
+        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1), 15, 45,FRONT.z
     ),
     new CharacterInfo(
-        'tuna', 10, 1, new THREE.Vector3(1, 1, 1), 10, 15,FRONT.x
+        'tuna', 10, 1, new THREE.Vector3(1, 1, 1), 10, 25,FRONT.x
     ),
     new CharacterInfo(
         'turtle', 10, 1, new THREE.Vector3(1, 1, 1), 4, 8,FRONT.z
