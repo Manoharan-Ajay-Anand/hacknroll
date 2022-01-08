@@ -19,7 +19,7 @@ const fishType = [
   ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 3
+        'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 4
     ),
     new CharacterInfo(
         'croc', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.z
@@ -40,7 +40,7 @@ const characterInfos: Array<CharacterInfo> = [
         'Derringer', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 3, 2
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 4, 2
     ),
 ];
 
@@ -148,40 +148,6 @@ async function init() {
         // play shooting audio
         audioManager.play_by_name("shoot");
     });
-    let count = 0;
-
-
-    // const spawnLogic = () => {
-    //     if (count == 50) {
-    //         return;
-    //     }
-    //     let pos_x = getRandomArbitrary(-80, 80);
-    //     let pos_z = getRandomArbitrary(-80, 80);
-    //     let rot_x = getRandomArbitrary(0, Math.PI);
-    //     let rot = new THREE.Euler(0, rot_x, 0);
-    //     let velocity = new THREE.Vector3(3, 0, 0);
-    //     velocity.applyEuler(rot); 
-    //     gameEngine.spawnCharacter(
-    //         'catfishAnim', 
-    //         new THREE.Vector3(pos_x, -4, pos_z),
-    //         rot,
-    //         velocity,
-    //         (character: Character) => {
-    //             console.log("BOOM")
-    //             console.log(character)
-    //             character.body.velocity.set(0, -10, 0);
-    //             character.body.angularVelocity.set(-1, 0, 0);
-    //             console.log(`SCORE: ${gameEngine.score}`)
-    //             gameEngine.score += 1;
-    //             score.innerHTML = gameEngine.score.toString();
-    //         }
-    //     );
-    //     count++;
-        
-    // }
-
-    
-
     
 
 }

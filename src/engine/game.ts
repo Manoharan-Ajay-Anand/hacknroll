@@ -94,10 +94,14 @@ export class GameEngine {
                 character.body.velocity.set(0, -10, 0);
                 character.body.angularVelocity.set(-1, 0, 0);
                 console.log(`SCORE: ${this.score}`)
+                setTimeout(() => {
+                    this.removeCharacter(character);
+                }, 300)
                 this.score += 1;
                 this.scoreEl.innerHTML = this.score.toString();
             }
         );
+        
         this.fishCount++;
         
     }
@@ -181,6 +185,11 @@ export class GameEngine {
         this.fishies.push(spawned)
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned, detectCollision);
+    }
+
+    removeCharacter(character: Character) {
+        this.physicsEngine.removeCharacter(character);
+        this.renderEngine.removeCharacter(character);
     }
 
     updateAnimalMovement(dt: number){

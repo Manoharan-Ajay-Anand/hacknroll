@@ -76,7 +76,7 @@ export class RenderEngine {
     pointLight: THREE.PointLight;
     sunLight: THREE.DirectionalLight;
     camera: THREE.PerspectiveCamera;
-    characters: Character[] = [];
+    characters: Map<string, Character> = new Map();
     renderer: THREE.WebGLRenderer;
     sizes: any;
     composer: any;
@@ -585,7 +585,12 @@ export class RenderEngine {
 
     addCharacter(character: Character) {
         this.scene.add(character.model);
-        this.characters.push(character);
+        this.characters.set(character.model.uuid, character);
+    }
+
+    removeCharacter(character: Character) {
+        this.scene.remove(character.model);
+        this.characters.delete(character.model.uuid);
     }
 
     resize(sizes: {width: number, height: number}) {
