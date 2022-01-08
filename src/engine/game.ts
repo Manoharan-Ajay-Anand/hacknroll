@@ -72,7 +72,8 @@ export class GameEngine {
         }
     }
 
-    spawnCharacter(name: string, pos: THREE.Vector3, rot: THREE.Euler, velocity: THREE.Vector3) {
+    spawnCharacter(name: string, pos: THREE.Vector3, rot: THREE.Euler
+        , velocity: THREE.Vector3, detectCollision: Function | undefined = undefined) {
         // console.log("")
         if (!this.characterMap.has(name)) {
             return;
@@ -87,7 +88,7 @@ export class GameEngine {
         console.log(`FISHY LENGTH: ${this.fishies.length}`)
         this.fishies.push(spawned)
         this.renderEngine.addCharacter(spawned);
-        this.physicsEngine.addCharacter(spawned);
+        this.physicsEngine.addCharacter(spawned, detectCollision);
     }
 
     updateAnimalMovement(dt: number){
