@@ -83,8 +83,11 @@ async function init() {
     document.getElementById("play_audio").onclick = function () {
         audioManager.play_by_name("ambi1");
     }
-
+    
+    const menuBanner: HTMLImageElement = document.getElementById("menuBanner") as HTMLImageElement;
+    menuBanner.src = "/ugliestTitle.png"
     document.getElementById("match_mode").onclick = function (){
+        menuBanner.style.display = 'none'
         gameEngine.set_mode(MODE.MATCHING);
         audioManager.play_by_name("ambi3");
 
@@ -96,7 +99,6 @@ async function init() {
         },1000)
         
     }
-
     document.getElementById('continue_play').onclick = ()=>{
         document.body.requestPointerLock();
     }
@@ -104,6 +106,7 @@ async function init() {
         gameEngine.set_mode(MODE.MENU);
         audioManager.play_by_name("ambi1");
         document.getElementById("pause-menu").style.display = 'none';
+        menuBanner.style.display = 'block'
     }
 
     window.addEventListener('resize', () => {
@@ -163,7 +166,7 @@ async function init() {
             }
         );
         count++;
-    }, 2000);
+    }, 1000);
 
     
 

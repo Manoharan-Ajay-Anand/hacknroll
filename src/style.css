@@ -18,7 +18,7 @@ body
     top: 0;
     left: 0;
     outline: none;
-    z-index: 1;
+    z-index: 0;
 }
 
 
@@ -38,20 +38,36 @@ body
     flex-direction: column;
     position: fixed;
     top: 10%;
-    left: 0;
+    left: -15%;
     font-family: Comic Sans MS, Comic Sans, cursive;
     z-index: 99;
 }
-
+#score{
+    position: fixed;
+    left: 10%;
+    top: 10%;
+    font-size: 64px;
+    background-color: rgba(251,123,10,0.5);
+    color: white;
+    padding: 24px;
+    font-size: 4em;
+    border-radius: 8px;
+}
 #menuBanner{
     width: 60%;
     margin: auto;
     /* height: 100%; */
+    z-index: 99;
+    position: relative;
+    
+    top: 0;
+    left: 0;
 }
 
 #username_wrap, .menu-btns{
     font-size: 2em;
     color: white;
+    border-radius: 8px;
 }
 #username_wrap{
     background-color: rgba(251,123,10,0.5);
@@ -61,7 +77,6 @@ body
 .menu-btns{
     margin: 8px;
     padding: 16px;
-    border-radius: 8px;
     background-color: crimson;
 }
 
