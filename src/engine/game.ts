@@ -57,7 +57,7 @@ export class GameEngine {
         if (this.mode == MODE.INGAME){
             this.renderEngine.add_cross_hair();
             this.renderEngine.move_player_to_start(this.playerNum);
-            this.renderEngine.change_cam_2_pointlock();
+            this.renderEngine.setup_pointlock();
         }
     }
 
@@ -118,6 +118,11 @@ export class GameEngine {
             // this.fishies[idx].update(dt)
         }
     }
+
+    add_point_lock(){
+        
+    }
+
 
     loop() {
         let dt = this.clock.getDelta();
