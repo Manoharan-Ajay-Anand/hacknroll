@@ -136,7 +136,7 @@ async function init() {
         velocity.applyQuaternion(rot);
         gameEngine.spawnCharacter(
             'machi', renderEngine.camera.position, 
-            new THREE.Euler(), velocity 
+            new THREE.Euler(), velocity,
         );
         // play shooting audio
         audioManager.play_by_name("shoot");
@@ -156,7 +156,11 @@ async function init() {
             'catfishAnim', 
             new THREE.Vector3(pos_x, -4, pos_z),
             rot,
-            velocity
+            velocity,
+            (character: Character) => {
+                character.body.velocity.set(0, -10, 0);
+                character.body.angularVelocity.set(-1, 0, 0)
+            }
         );
         count++;
     }, 2000);

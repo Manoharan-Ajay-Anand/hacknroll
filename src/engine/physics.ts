@@ -11,7 +11,10 @@ export class PhysicsEngine {
         this.characters = [];
     }
 
-    addCharacter(character: Character) {
+    addCharacter(character: Character, detectCollision: Function | undefined) {
+        if (detectCollision) {
+            character.body.addEventListener('collide', () => detectCollision(character));
+        }
         this.world.addBody(character.body);
         this.characters.push(character);
     }
