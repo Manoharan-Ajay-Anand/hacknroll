@@ -102,8 +102,11 @@ export class GameEngine {
         let rot = new THREE.Euler(0, rot_x, 0);
         let velocity = new THREE.Vector3(3, 0, 0);
         velocity.applyEuler(rot); 
+        let fishes = Object.keys(fishType);
+        let randKey = fishes[Math.floor(Math.random() * fishes.length)]
+
         this.spawnCharacter(
-            'catfishAnim', 
+            randKey, 
             new THREE.Vector3(pos_x, -4, pos_z),
             rot,
             velocity,
