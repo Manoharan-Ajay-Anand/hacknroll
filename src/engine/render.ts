@@ -17,6 +17,10 @@ const bloom_params = {
 
 const USE_BLOOM = true;
 
+const menu_cam = {
+    pos: new THREE.Vector3(32, 10, 60),
+    lookAt: new THREE.Vector3(-60, 10, 20)
+}
 
 const player_cam = [
     {
@@ -111,8 +115,8 @@ export class RenderEngine {
         // this.scene.add(this.sunLight);
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
         //this.camera.position.set(-50, 10, 75);
-        this.camera.position.set(32, 10, 60);
-        this.camera.lookAt(new THREE.Vector3(-60, 10, 20))
+        this.camera.position.set(menu_cam.pos.x, menu_cam.pos.y, menu_cam.pos.z);
+        this.camera.lookAt(menu_cam.lookAt)
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
@@ -439,6 +443,15 @@ export class RenderEngine {
         this.camera.rotation.y += rot;
     }
 
+    lookat_cam(pos: THREE.Vector3){
+        this.camera.lookAt(menu_cam.lookAt);
+    }
+
+    move_player_to_menu(){
+        this.move_player_to(menu_cam.pos)
+        this.lookat_cam(menu_cam.lookAt)
+    }
+
     move_player_to_start(player_num: number){
         this.move_player_to(this.get_player_cam(player_num).pos)
         this.rotate_player_to(this.get_player_cam(player_num).rot)
@@ -451,17 +464,21 @@ export class RenderEngine {
         if ( havePointerLock ) {
 
             var element:any = document.body;
-
+            let controls = this.controls
             var pointerlockchange = function ( event:any ) {
-
+                console.log(pointerlockchange)
+                console.log(event)
+                console.log(controls)
+                let pauseMenu = document.getElementById("pause-menu");
                 if ( document.pointerLockElement === element ) {  // || document.mozPointerLockElement === element || document.webkitPointerLockElement === element
 
-                    this.controls.enabled = true;
+                    controls.enabled = true;
+                    pauseMenu.style.display="none"
 
                 } else {
 
-                    this.controls.enabled = false;
-
+                    controls.enabled = false;
+                    pauseMenu.style.display="flex"
                     // blocker.style.display = '-webkit-box';
                     // blocker.style.display = '-moz-box';
                     // blocker.style.display = 'box';
@@ -531,7 +548,10 @@ export class RenderEngine {
     }
 
     change_cam_2_pointlock(){
-        this.controls = new PointerLockControls( this.camera );
+        if (this.controls == null) {
+            this.controls = new PointerLockControls( this.camera );
+        }
+        
         this.scene.add( this.controls.getObject() );
     }
 

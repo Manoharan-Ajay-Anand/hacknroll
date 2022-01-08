@@ -22,7 +22,9 @@ export class GameEngine {
     mode: MODE;
     username: string;
     menuGUI: any;
+    pauseMenu: any;
     playerNum: number;
+    isPause: boolean;
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
@@ -33,7 +35,9 @@ export class GameEngine {
         this.mode = MODE.MENU;
         this.username = generateName();
         this.menuGUI = document.getElementById("menu-title");
+        this.pauseMenu = document.getElementById("pause-menu");
         this.playerNum = 0;
+        this.isPause = false;
     }
 
     get_my_name(){
@@ -50,6 +54,7 @@ export class GameEngine {
     change_state(){
         if (this.mode == MODE.MENU){
             this.menuGUI.style.display = 'flex';
+            this.renderEngine.move_player_to_menu();
         }
         if (this.mode == MODE.MATCHING){
             this.menuGUI.style.display = 'none';
@@ -58,6 +63,22 @@ export class GameEngine {
             this.renderEngine.add_cross_hair();
             this.renderEngine.move_player_to_start(this.playerNum);
             this.renderEngine.setup_pointlock();
+            // document.addEventListener("keydown", (e) => {
+            //     // console.log(e.keyCode);
+            //     // console.log(e.key);
+            //     // console.log(e.code);
+            //     // console.log(e.shiftKey);
+            //     if (e.code == "Escape"){
+            //         this.isPause = true;
+            //         this.pauseMenu.style.display="flex"
+            //     }
+            // });
+            // window.addEventListener("focus",(e)=>{
+            //     document.body.requestPointerLock();
+            // })
+            // document.body.addEventListener("click",(e)=>{
+            //     document.body.requestPointerLock();
+            // })
         }
     }
 

@@ -97,6 +97,15 @@ async function init() {
         
     }
 
+    document.getElementById('continue_play').onclick = ()=>{
+        document.body.requestPointerLock();
+    }
+    document.getElementById('exit_game').onclick = ()=>{
+        gameEngine.set_mode(MODE.MENU);
+        audioManager.play_by_name("ambi1");
+        document.getElementById("pause-menu").style.display = 'none';
+    }
+
     window.addEventListener('resize', () => {
         renderEngine.resize({ width: window.innerWidth, height: window.innerHeight });
     });
