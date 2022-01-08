@@ -12,6 +12,25 @@ export enum MODE {
     INGAME,
     END
 }
+
+const fishType: any = {
+    'catfishAnim':{
+        score: 5
+    },
+    "croc":{
+        score: -5
+    },
+    "tuna":{
+        score: 2
+    },
+    "turtle":{
+        score: 50
+    },
+    "swordfish":{
+        score: 100
+    },
+}
+
 export class GameEngine {
     renderEngine: RenderEngine;
     physicsEngine: PhysicsEngine;
@@ -97,7 +116,10 @@ export class GameEngine {
                 setTimeout(() => {
                     this.removeCharacter(character);
                 }, 300)
-                this.score += 1;
+                let name: string = character.info.name;
+                if ( name in fishType){
+                    this.score += fishType[name]["score"];
+                }
                 this.scoreEl.innerHTML = this.score.toString();
             }
         );
@@ -137,6 +159,7 @@ export class GameEngine {
             this.renderEngine.add_cross_hair();
             this.renderEngine.move_player_to_start(this.playerNum);
             this.renderEngine.setup_pointlock();
+            this.score = 0;
             this.set_peaceful_spawn();
             // document.addEventListener("keydown", (e) => {
             //     // console.log(e.keyCode);
