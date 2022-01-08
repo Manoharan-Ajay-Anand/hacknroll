@@ -1,10 +1,12 @@
 import * as THREE from 'three'
 import { Character } from '../model/character';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { GUI } from "dat.gui";
+import { Vector3 } from 'three';
 
 const bloom_params = {
     exposure: 0.2,
@@ -14,6 +16,17 @@ const bloom_params = {
 };
 
 const USE_BLOOM = true;
+
+
+const player_cam = [
+    {
+        pos: new THREE.Vector3(-4,10,2),
+        rot: Math.PI/2
+    }
+]
+// const player_pos = [
+    
+// ]
 
 const loadShaders = async (v:any, f:any, others:any, loader:any) => {
     console.log(`v and f: ${v}, ${f}`);
@@ -70,6 +83,8 @@ export class RenderEngine {
     water_mat2: any;
     mat2texture: any;
     textureLoader: THREE.TextureLoader;
+    controls: any;
+    
 
     constructor(canvas: Element, sizes: {width: number, height: number}, env: THREE.Group) {
         this.canvas = canvas;
@@ -94,9 +109,10 @@ export class RenderEngine {
         // this.sunLight.position.set(0, 0, 1000);
         // // this.sunLight.rotation.x = Math.PI / 2;
         // this.scene.add(this.sunLight);
-        this.camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 10000);
-        this.camera.position.set(-50, 10, 75);
-        // this.camera.lookAt(new THREE.Vector3(1000, 20, 300))
+        this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000);
+        //this.camera.position.set(-50, 10, 75);
+        this.camera.position.set(32, 10, 60);
+        this.camera.lookAt(new THREE.Vector3(-60, 10, 20))
         this.scene.add(this.camera);
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
         this.renderer.setSize(sizes.width, sizes.height);
@@ -165,10 +181,10 @@ export class RenderEngine {
         this.mat2texture = {};
 
 
-        let controls = new OrbitControls(this.camera, this.renderer.domElement);
-        controls.target = new THREE.Vector3(25, 10, 30);
-        controls.update();
-
+        // let controls = new OrbitControls(this.camera, this.renderer.domElement);
+        // controls.target = new THREE.Vector3(25, 10, 30);
+        // controls.update();
+        this.controls  = null;//controls;
 
         this.initWater();
     }
@@ -411,6 +427,113 @@ export class RenderEngine {
 
     }
 
+    get_player_cam(player_num: number){
+        return player_cam[player_num]
+    }
+
+    move_player_to(pos: THREE.Vector3){
+        this.camera.position.set(pos.x,pos.y,pos.z);
+    }
+
+    rotate_player_to(rot: number){
+        this.camera.rotation.y += rot;
+    }
+
+    move_player_to_start(player_num: number){
+        this.move_player_to(this.get_player_cam(player_num).pos)
+        this.rotate_player_to(this.get_player_cam(player_num).rot)
+    }
+
+    setup_pointlock(){
+        this.change_cam_2_pointlock();
+        var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+
+        if ( havePointerLock ) {
+
+            var element:any = document.body;
+
+            var pointerlockchange = function ( event:any ) {
+
+                if ( document.pointerLockElement === element ) {  // || document.mozPointerLockElement === element || document.webkitPointerLockElement === element
+
+                    this.controls.enabled = true;
+
+                } else {
+
+                    this.controls.enabled = false;
+
+                    // blocker.style.display = '-webkit-box';
+                    // blocker.style.display = '-moz-box';
+                    // blocker.style.display = 'box';
+
+                    // instructions.style.display = '';
+
+                }
+
+            }
+
+            // var pointerlockerror = function ( event ) {
+
+            //     instructions.style.display = '';
+
+            // }
+
+            // Hook pointer lock state change events
+            document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+            document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+            document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+            // document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+            // document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+            // document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+            // instructions.addEventListener( 'click', function ( event:any ) {
+
+            // instructions.style.display = 'none';
+
+            // Ask the browser to lock the pointer
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+
+            if ( /Firefox/i.test( navigator.userAgent ) ) {
+
+                var fullscreenchange = function ( event:any ) {
+
+                    if ( document.fullscreenElement === element ) {  // || document.mozFullscreenElement === element || document.mozFullScreenElement === element
+
+                        document.removeEventListener( 'fullscreenchange', fullscreenchange );
+                        document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
+
+                        element.requestPointerLock();
+                    }
+
+                }
+
+                document.addEventListener( 'fullscreenchange', fullscreenchange, false );
+                document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
+
+                element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
+
+                element.requestFullscreen();
+
+            } else {
+
+                element.requestPointerLock();
+
+            }
+
+            // }, false );
+
+        } else {
+
+            alert('Your browser doesn\'t seem to support Pointer Lock API');
+
+        }
+    }
+
+    change_cam_2_pointlock(){
+        this.controls = new PointerLockControls( this.camera );
+        this.scene.add( this.controls.getObject() );
+    }
 
     add_cross_hair(){
         this.textureLoader.load("/textures/crossHair2.png",(texture:THREE.Texture)=>{
