@@ -466,9 +466,9 @@ export class RenderEngine {
             var element:any = document.body;
             let controls = this.controls
             var pointerlockchange = function ( event:any ) {
-                console.log(pointerlockchange)
-                console.log(event)
-                console.log(controls)
+                // console.log(pointerlockchange)
+                // console.log(event)
+                // console.log(controls)
                 let pauseMenu = document.getElementById("pause-menu");
                 if ( document.pointerLockElement === element ) {  // || document.mozPointerLockElement === element || document.webkitPointerLockElement === element
 
@@ -568,7 +568,7 @@ export class RenderEngine {
             const width = material.map.image.width * scale;
             const height = material.map.image.height * scale;
             const mesh = new THREE.Mesh(geometry, material);
-            console.log(mesh)
+            // console.log(mesh)
             mesh.position.set(0,0,-5);//x = 0;
             // mesh.position.y = 1.5;
             // mesh.position.z = -5;

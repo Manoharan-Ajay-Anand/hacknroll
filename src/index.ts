@@ -18,7 +18,7 @@ const fishType = [
     "swordfish",
   ]
 
-  const commonbbox = new THREE.Vector3(3, 2, 2);;
+  const commonbbox = new THREE.Vector3(3, 2, 2);
 
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
@@ -34,7 +34,7 @@ const characterInfos: Array<CharacterInfo> = [
         'swordfish', 10, 1, commonbbox, 15, 75,FRONT.z
     ),
     new CharacterInfo(
-        'tuna', 10, 1, commonbbox, 10, 25,FRONT.x
+        'tuna', 10, 1, new THREE.Vector3(3, 5, 2), 10, 25,FRONT.x
     ),
     new CharacterInfo(
         'turtle', 10, 1, commonbbox, 4, 8,FRONT.z
@@ -51,7 +51,7 @@ const audioInfo: Array<AudioInfo> = [
     new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true,true),
     new AudioInfo("ambi2.m4a","ambi2",false,true,0.5,false,true),
     new AudioInfo("ambi3.m4a","ambi3",false,true,0.5,false,true),
-    new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 0.75, false,false),  //shoot  bonus
+    new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 1.5, false,false),  //shoot  bonus
     new AudioInfo("Reeeeee-Short.wav", "shoot",false, false, 1.25, false,false),  //1.75 //bonus
     new AudioInfo("updownsheesh.wav", "lose_pts",false, false, 1.75, false,false),   //2.75
     new AudioInfo("oh no 2.wav", "speed",false, false, 1.75, false,false),  //shoot  bonus

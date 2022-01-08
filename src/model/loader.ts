@@ -27,12 +27,12 @@ export default {
             });
             model.scale.setScalar(charInfo.scale);
             //Animation
-            console.log("ANIMATIONs")
-            console.log(charInfo.name)
-            console.log(gltf.animations)
+            // console.log("ANIMATIONs")
+            // console.log(charInfo.name)
+            // console.log(gltf.animations)
             let animations:any[] = []
             if (gltf.animations && gltf.animations.length > 0) {
-                console.log("Set has animation")
+                // console.log("Set has animation")
                 let mixer = new THREE.AnimationMixer( model );
                 animations = gltf.animations;
                 charInfo.set_has_anim(true);
@@ -49,13 +49,13 @@ export default {
         });
     },
     cloneCharacter(character: Character) {
-        console.log("cloneCharacter")
+        // console.log("cloneCharacter")
         let info = character.info.clone();
         let halfExtents = info.halfExtents;
         let animations = character.animation.slice();
         let model = SkeletonUtils.clone(character.model);
         info.set_mixer(new THREE.AnimationMixer(model));
-        console.log(animations)
+        // console.log(animations)
         for (let idx in animations){
             let clipAction = info.mixer.clipAction( animations[ idx ] );
             clipAction.play();
