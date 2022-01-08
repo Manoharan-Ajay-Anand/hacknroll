@@ -105,6 +105,8 @@ export class GameEngine {
         let fishes = Object.keys(fishType);
         let randKey = fishes[Math.floor(Math.random() * fishes.length)]
 
+        // let fishCount = this.fishCount;
+
         this.spawnCharacter(
             randKey, 
             new THREE.Vector3(pos_x, -4, pos_z),
@@ -122,6 +124,7 @@ export class GameEngine {
                 let name: string = character.info.name;
                 if ( name in fishType){
                     this.score += fishType[name]["score"];
+                    this.fishCount -= 1;
                 }
                 this.scoreEl.innerHTML = this.score.toString();
             }
