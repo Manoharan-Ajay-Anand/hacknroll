@@ -19,7 +19,7 @@ const fishType = [
   ]
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
-        'catfishAnim', 10, 1, new THREE.Vector3(1, 1, 1), 3, 8,FRONT.x,
+        'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 3
     ),
     new CharacterInfo(
         'croc', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.z
@@ -40,7 +40,7 @@ const characterInfos: Array<CharacterInfo> = [
         'Derringer', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 3, 2
     ),
 ];
 
@@ -123,7 +123,7 @@ async function init() {
     );
     keyboardjs.bind('space', () => {
         let rot = renderEngine.camera.quaternion;
-        let velocity = new THREE.Vector3(0, 0, -50);
+        let velocity = new THREE.Vector3(0, 0, -200);
         velocity.applyQuaternion(rot);
         gameEngine.spawnCharacter(
             'machi', renderEngine.camera.position, 

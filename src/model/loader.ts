@@ -21,7 +21,9 @@ export default {
             let body = new CANNON.Body({
                 mass: charInfo.mass,
                 shape: new CANNON.Box(new CANNON.Vec3(halfExtents.x, halfExtents.y, halfExtents.z)),
-                collisionResponse: false
+                //collisionResponse: false,
+                collisionFilterGroup: charInfo.collisionGroup,
+                collisionFilterMask: charInfo.collisionTarget
             });
             model.scale.setScalar(charInfo.scale);
             //Animation
@@ -61,7 +63,9 @@ export default {
         let body = new CANNON.Body({
             mass: info.mass,
             shape: new CANNON.Box(new CANNON.Vec3(halfExtents.x, halfExtents.y, halfExtents.z)),
-            collisionResponse: false
+            //collisionResponse: false,
+            collisionFilterGroup: info.collisionGroup,
+            collisionFilterMask: info.collisionTarget
         }); 
         return new Character(info, body, model, animations);
     }

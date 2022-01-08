@@ -15,10 +15,13 @@ export class CharacterInfo {
     panikSpeed: number;
     mixer: THREE.AnimationMixer;
     front: FRONT;
+    collisionGroup: number;
+    collisionTarget: number;
 
     
 
-    constructor(name: string, mass: number, scale: number, halfExtents: THREE.Vector3, relaxSpeed:number = 5, panikSpeed:number = 12, front = FRONT.z) {
+    constructor(name: string, mass: number, scale: number, halfExtents: THREE.Vector3, relaxSpeed:number = 5, 
+        panikSpeed:number = 12, front = FRONT.z, collisionGroup: number = 1, collisionTarget: number = -1) {
         this.name = name;
         this.mass = mass;
         this.scale = scale;
@@ -27,7 +30,8 @@ export class CharacterInfo {
         this.relaxSpeed = relaxSpeed * speed_multiplier;
         this.panikSpeed = panikSpeed * speed_multiplier;
         this.front = front;
-        
+        this.collisionGroup = collisionGroup;
+        this.collisionTarget = collisionTarget;
     }
 
     set_has_anim(has_anim: boolean){
