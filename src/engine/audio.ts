@@ -62,7 +62,7 @@ export class AudioManager{
             let audio = this.audios[idx] 
             audio.set_audio_obj(new THREE.Audio(this.global_listener))
             let path = audio.path;
-            console.log(console.log(audio.name))
+            // console.log(console.log(audio.name))
             this.name2audio[audio.name] = audio;
             
             this.audio_loader.load(path,(buffer: AudioBuffer)=>{
@@ -83,7 +83,7 @@ export class AudioManager{
     }
 
     play_by_name(name: string){{
-        console.log(this.name2audio)
+        // console.log(this.name2audio)
         if(!this.name2audio[name]){
             return;
         }

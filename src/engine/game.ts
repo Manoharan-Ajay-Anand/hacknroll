@@ -4,6 +4,7 @@ import { RenderEngine } from "./render";
 import * as THREE from "three";
 import ModelLoader from '../model/loader';
 import { generateName, getRandomFloat } from '../utility'
+import { AudioManager } from "./audio";
 
 const timeStep = 1 / 60;
 export enum MODE {
@@ -34,6 +35,7 @@ const fishType: any = {
 export class GameEngine {
     renderEngine: RenderEngine;
     physicsEngine: PhysicsEngine;
+    audioManager: AudioManager;
     characterMap: Map<string, Character>;
     clock: THREE.Clock;
     // model_mixers: any[];
@@ -79,6 +81,10 @@ export class GameEngine {
         
     }
 
+    set_audio_manager(audioManager: AudioManager){
+        this.audioManager = audioManager;
+    }
+
     common_spawn(){  //spawnLogic: Function
         let spawnLogic = this.spawnLogic;
         var self = this;
@@ -91,8 +97,8 @@ export class GameEngine {
         }, this.spawnTime);
     }
     spawnLogic(){
-        console.log("spawnLogic")
-        console.log(`this.fishCount: ${this.fishCount}`)
+        // console.log("spawnLogic")
+        // console.log(`this.fishCount: ${this.fishCount}`)
         if (this.fishCount == 50) {
             return;
         }
@@ -113,10 +119,10 @@ export class GameEngine {
             rot,
             velocity,
             (character: Character) => {
-                console.log("BOOM")
+                // console.log("BOOM")
                 character.body.velocity.set(0, -10, 0);
                 character.body.angularVelocity.set(-1, 0, 0);
-                console.log(`SCORE: ${this.score}`)
+                // console.log(`SCORE: ${this.score}`)
                 setTimeout(() => {
                     this.removeCharacter(character);
                 }, 300)
@@ -124,6 +130,9 @@ export class GameEngine {
                 if ( name in fishType){
                     this.score += fishType[name]["score"];
                     this.fishCount -= 1;
+                    if (name == "croc"){
+                        this.audioManager.play_by_name("lose_pts")
+                    }
                 }
                 this.scoreEl.innerHTML = this.score.toString();
             }
@@ -208,12 +217,12 @@ export class GameEngine {
         spawned.body.position.set(pos.x, pos.y, pos.z);
 
         let spec_velocity = velocity.clone();
-        console.log(spec_velocity)
+        // console.log(spec_velocity)
         spec_velocity.multiplyScalar(character.info.panikSpeed);
         spawned.body.velocity.set(spec_velocity.x, spec_velocity.y, spec_velocity.z);
         spawned.body.quaternion.setFromEuler(rot.x, rot.y, rot.z);
 
-        console.log(`FISHY LENGTH: ${this.fishies.length}`)
+        // console.log(`FISHY LENGTH: ${this.fishies.length}`)
         this.fishies.push(spawned)
         this.renderEngine.addCharacter(spawned);
         this.physicsEngine.addCharacter(spawned, detectCollision);

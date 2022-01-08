@@ -17,30 +17,33 @@ const fishType = [
     "turtle",
     "swordfish",
   ]
+
+  const commonbbox = new THREE.Vector3(3, 2, 2);;
+
 const characterInfos: Array<CharacterInfo> = [
     new CharacterInfo(
         'catfishAnim', 10, 1, new THREE.Vector3(3, 2, 2), 3, 8,FRONT.x, 2, 4
     ),
     new CharacterInfo(
-        'croc', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.z
+        'croc', 10, 1, new THREE.Vector3(3, 2, 2), 5, 10,FRONT.z
     ),
     new CharacterInfo(
-        'raft', 10, 10, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x,
+        'raft', 10, 10, commonbbox, 0, 0,FRONT.x,
     ),
     new CharacterInfo(
-        'swordfish', 10, 1, new THREE.Vector3(1, 1, 1), 15, 45,FRONT.z
+        'swordfish', 10, 1, commonbbox, 15, 45,FRONT.z
     ),
     new CharacterInfo(
-        'tuna', 10, 1, new THREE.Vector3(1, 1, 1), 10, 25,FRONT.x
+        'tuna', 10, 1, commonbbox, 10, 25,FRONT.x
     ),
     new CharacterInfo(
-        'turtle', 10, 1, new THREE.Vector3(1, 1, 1), 4, 8,FRONT.z
+        'turtle', 10, 1, commonbbox, 4, 8,FRONT.z
     ),
     new CharacterInfo(
         'Derringer', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x
     ),
     new CharacterInfo(
-        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 0, 0,FRONT.x, 4, 2
+        'machi', 10, 1, new THREE.Vector3(1, 1, 1), 5, 10,FRONT.x, 4, 2
     ),
 ];
 
@@ -50,7 +53,9 @@ const audioInfo: Array<AudioInfo> = [
     new AudioInfo("ambi3.m4a","ambi3",false,true,0.5,false,true),
     // new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 0.75, false,false),  //shoot
     new AudioInfo("Reeeeee-Short.wav", "shoot",false, false, 2.75, false,false),   //bonus
-    // new AudioInfo("Nya2.wav", "lose_pts",false, false, 0.75, false,false),
+    new AudioInfo("updownsheesh.wav", "lose_pts",false, false, 0.75, false,false),
+    // new AudioInfo("updownsheesh.wav", "",false, false, 2.75, false,false),
+    //updownsheesh
 ]
 
 function startAnimation(gameEngine: GameEngine) {
@@ -81,7 +86,7 @@ async function init() {
     document.getElementById("userName").innerHTML = username;
 
     const audioManager = new AudioManager(audioInfo);
-
+    gameEngine.set_audio_manager(audioManager);
     document.getElementById("play_audio").onclick = function () {
         audioManager.play_by_name("ambi1");
     }

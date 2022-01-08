@@ -33,7 +33,7 @@ const player_cam = [
 // ]
 
 const loadShaders = async (v:any, f:any, others:any, loader:any) => {
-    console.log(`v and f: ${v}, ${f}`);
+    // console.log(`v and f: ${v}, ${f}`);
     let toRet = [];
     let p1 = new Promise<void>((resolve) => {
       loader.load(v, (data:any) => {
@@ -63,7 +63,7 @@ const loadShaders = async (v:any, f:any, others:any, loader:any) => {
     // toRet.push(await loader.load(v,(data)=>{return data }))
     // toRet.push(await loader.load(f,(data)=>{return data }))
     await Promise.all(promise_arr);
-    console.log(`toRet ${toRet.length}`);
+    // console.log(`toRet ${toRet.length}`);
 
   //   console.log(toRet);
     toRet.push(others)
@@ -300,7 +300,7 @@ export class RenderEngine {
         
         loadShaders(vertShader, fragShader, listOfOthers,f_loader).then((shaders) => {
             //Create shader text
-            console.log(shaders)
+            // console.log(shaders)
             // Plane
             const detail = 2;
             const plane_geom = new THREE.PlaneGeometry(8, 8, 32 * detail, 32 * detail); 
@@ -350,7 +350,7 @@ export class RenderEngine {
             });
         loadShaders(vertShader2, fragShader2, listOfOthers,f_loader).then((shaders) => {
             //Create shader text
-            console.log(shaders)
+            // console.log(shaders)
 
             // Plane
 
@@ -362,8 +362,8 @@ export class RenderEngine {
             }); 
 
 
-            console.log("image texture");
-            console.log(this.mat2texture);
+            // console.log("image texture");
+            // console.log(this.mat2texture);
             const detail = 2;
             const plane_geom = new THREE.PlaneGeometry(8, 8, 32 * detail, 32 * detail); 
             let thisUni = THREE.UniformsUtils.merge(
@@ -376,7 +376,7 @@ export class RenderEngine {
                 }
                 ]
             )
-            console.log(thisUni)
+            // console.log(thisUni)
 
             let plane_mat2 = new THREE.ShaderMaterial({
                 uniforms: thisUni,
