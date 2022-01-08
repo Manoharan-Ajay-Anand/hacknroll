@@ -48,7 +48,9 @@ const audioInfo: Array<AudioInfo> = [
     new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true,true),
     new AudioInfo("ambi2.m4a","ambi2",false,true,0.5,false,true),
     new AudioInfo("ambi3.m4a","ambi3",false,true,0.5,false,true),
-    new AudioInfo("WeeeeeShort.wav", "shoot",false, false, 0.75, false,false)
+    // new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 0.75, false,false),  //shoot
+    new AudioInfo("Reeeeee-Short.wav", "shoot",false, false, 2.75, false,false),   //bonus
+    // new AudioInfo("Nya2.wav", "lose_pts",false, false, 0.75, false,false),
 ]
 
 function startAnimation(gameEngine: GameEngine) {
