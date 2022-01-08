@@ -31,7 +31,7 @@ const characterInfos: Array<CharacterInfo> = [
         'raft', 10, 10, commonbbox, 0, 0,FRONT.x,
     ),
     new CharacterInfo(
-        'swordfish', 10, 1, commonbbox, 15, 45,FRONT.z
+        'swordfish', 10, 1, commonbbox, 15, 75,FRONT.z
     ),
     new CharacterInfo(
         'tuna', 10, 1, commonbbox, 10, 25,FRONT.x
@@ -51,9 +51,10 @@ const audioInfo: Array<AudioInfo> = [
     new AudioInfo("ambi1Trimmed.m4a","ambi1",false,true,0.25,true,true),
     new AudioInfo("ambi2.m4a","ambi2",false,true,0.5,false,true),
     new AudioInfo("ambi3.m4a","ambi3",false,true,0.5,false,true),
-    // new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 0.75, false,false),  //shoot
-    new AudioInfo("Reeeeee-Short.wav", "shoot",false, false, 2.75, false,false),   //bonus
-    new AudioInfo("updownsheesh.wav", "lose_pts",false, false, 0.75, false,false),
+    new AudioInfo("WeeeeeShort.wav", "bonus",false, false, 0.75, false,false),  //shoot  bonus
+    new AudioInfo("Reeeeee-Short.wav", "shoot",false, false, 1.25, false,false),  //1.75 //bonus
+    new AudioInfo("updownsheesh.wav", "lose_pts",false, false, 1.75, false,false),   //2.75
+    new AudioInfo("oh no 2.wav", "speed",false, false, 1.75, false,false),  //shoot  bonus
     // new AudioInfo("updownsheesh.wav", "",false, false, 2.75, false,false),
     //updownsheesh
 ]

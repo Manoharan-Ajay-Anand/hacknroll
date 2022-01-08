@@ -132,7 +132,12 @@ export class GameEngine {
                     this.fishCount -= 1;
                     if (name == "croc"){
                         this.audioManager.play_by_name("lose_pts")
+                    } else if (name == "swordfish"){
+                        this.audioManager.play_by_name("speed")
+                    } else if (name == "turtle"){
+                        this.audioManager.play_by_name("bonus")
                     }
+                
                 }
                 this.scoreEl.innerHTML = this.score.toString();
             }
