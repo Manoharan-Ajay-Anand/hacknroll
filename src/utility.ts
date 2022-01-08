@@ -6,6 +6,10 @@ export function getRandomInt(min:number, max:number) {
   	return Math.floor(Math.random() * (max - min)) + min;
 }
 
+export function getRandomFloat(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}
+
 export function generateName(){
 	var first_name = ["abandoned","able","absolute","adorable","citric","mee","Ugandan","smoke weed"];
 

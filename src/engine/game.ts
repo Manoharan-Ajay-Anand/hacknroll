@@ -3,7 +3,7 @@ import { PhysicsEngine } from "./physics";
 import { RenderEngine } from "./render";
 import * as THREE from "three";
 import ModelLoader from '../model/loader';
-import { generateName } from '../utility'
+import { generateName, getRandomFloat } from '../utility'
 
 const timeStep = 1 / 60;
 export enum MODE {
@@ -23,8 +23,15 @@ export class GameEngine {
     username: string;
     menuGUI: any;
     pauseMenu: any;
+    scoreEl: any;
     playerNum: number;
     isPause: boolean;
+    score: number;
+    spawnInterval: any;
+    spawnTime: number;
+    fishCount: number;
+    
+    
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
@@ -36,12 +43,63 @@ export class GameEngine {
         this.username = generateName();
         this.menuGUI = document.getElementById("menu-title");
         this.pauseMenu = document.getElementById("pause-menu");
+        this.scoreEl = document.getElementById('score');
         this.playerNum = 0;
         this.isPause = false;
+        this.score = 0;
+        this.spawnInterval = null;
+        this.fishCount = 0;
+
+
+
+
+
+
+
+        this.set_peaceful_spawn();
+        
     }
 
-    get_my_name(){
-        return this.username;
+    common_spawn(){  //spawnLogic: Function
+        let spawnLogic = this.spawnLogic;
+        var self = this;
+        if (this.spawnInterval != null){
+            clearInterval(this.spawnInterval);
+        }
+        this.spawnInterval = setInterval(()=>{
+            // spawnLogic(self)
+            this.spawnLogic();
+        }, this.spawnTime);
+    }
+    spawnLogic(){
+        console.log("spawnLogic")
+        console.log(`this.fishCount: ${this.fishCount}`)
+        if (this.fishCount == 50) {
+            return;
+        }
+        let pos_x = getRandomFloat(-80, 80);
+        let pos_z = getRandomFloat(-80, 80);
+        let rot_x = getRandomFloat(0, Math.PI);
+        let rot = new THREE.Euler(0, rot_x, 0);
+        let velocity = new THREE.Vector3(3, 0, 0);
+        velocity.applyEuler(rot); 
+        this.spawnCharacter(
+            'catfishAnim', 
+            new THREE.Vector3(pos_x, -4, pos_z),
+            rot,
+            velocity,
+            (character: Character) => {
+                console.log("BOOM")
+                console.log(character)
+                character.body.velocity.set(0, -10, 0);
+                character.body.angularVelocity.set(-1, 0, 0);
+                console.log(`SCORE: ${this.score}`)
+                this.score += 1;
+                this.scoreEl.innerHTML = this.score.toString();
+            }
+        );
+        this.fishCount++;
+        
     }
 
     set_mode(mode: MODE){
@@ -49,8 +107,20 @@ export class GameEngine {
         this.change_state();
     }
 
-    
+    set_spawn_rush(){
+        this.spawnTime = 300;
+        this.common_spawn()
+    }
 
+    set_peaceful_spawn(){
+        this.spawnTime = 1000;
+        this.common_spawn();
+    }
+    
+    
+    get_my_name(){
+        return this.username;
+    }
     change_state(){
         if (this.mode == MODE.MENU){
             this.menuGUI.style.display = 'flex';
@@ -63,6 +133,7 @@ export class GameEngine {
             this.renderEngine.add_cross_hair();
             this.renderEngine.move_player_to_start(this.playerNum);
             this.renderEngine.setup_pointlock();
+            this.set_peaceful_spawn();
             // document.addEventListener("keydown", (e) => {
             //     // console.log(e.keyCode);
             //     // console.log(e.key);

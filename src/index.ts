@@ -56,9 +56,9 @@ function startAnimation(gameEngine: GameEngine) {
     window.requestAnimationFrame(() => startAnimation(gameEngine));
 }
 
-function getRandomArbitrary(min: number, max: number) {
-    return Math.random() * (max - min) + min;
-}
+// function getRandomArbitrary(min: number, max: number) {
+//     return Math.random() * (max - min) + min;
+// }
 
 async function init() {
 
@@ -86,11 +86,14 @@ async function init() {
     
     const menuBanner: HTMLImageElement = document.getElementById("menuBanner") as HTMLImageElement;
     menuBanner.src = "/ugliestTitle.png"
+
+    const score = document.getElementById('score');
+
     document.getElementById("match_mode").onclick = function (){
         menuBanner.style.display = 'none'
         gameEngine.set_mode(MODE.MATCHING);
         audioManager.play_by_name("ambi3");
-
+        score.style.display = "block";
         // just testing the flow
         setTimeout(()=>{
             gameEngine.set_mode(MODE.INGAME);
@@ -107,6 +110,7 @@ async function init() {
         audioManager.play_by_name("ambi1");
         document.getElementById("pause-menu").style.display = 'none';
         menuBanner.style.display = 'block'
+        score.style.display = "none";
     }
 
     window.addEventListener('resize', () => {
@@ -145,28 +149,38 @@ async function init() {
         audioManager.play_by_name("shoot");
     });
     let count = 0;
-    setInterval(() => {
-        if (count == 50) {
-            return;
-        }
-        let pos_x = getRandomArbitrary(-80, 80);
-        let pos_z = getRandomArbitrary(-80, 80);
-        let rot_x = getRandomArbitrary(0, Math.PI);
-        let rot = new THREE.Euler(0, rot_x, 0);
-        let velocity = new THREE.Vector3(3, 0, 0);
-        velocity.applyEuler(rot); 
-        gameEngine.spawnCharacter(
-            'catfishAnim', 
-            new THREE.Vector3(pos_x, -4, pos_z),
-            rot,
-            velocity,
-            (character: Character) => {
-                character.body.velocity.set(0, -10, 0);
-                character.body.angularVelocity.set(-1, 0, 0)
-            }
-        );
-        count++;
-    }, 1000);
+
+
+    // const spawnLogic = () => {
+    //     if (count == 50) {
+    //         return;
+    //     }
+    //     let pos_x = getRandomArbitrary(-80, 80);
+    //     let pos_z = getRandomArbitrary(-80, 80);
+    //     let rot_x = getRandomArbitrary(0, Math.PI);
+    //     let rot = new THREE.Euler(0, rot_x, 0);
+    //     let velocity = new THREE.Vector3(3, 0, 0);
+    //     velocity.applyEuler(rot); 
+    //     gameEngine.spawnCharacter(
+    //         'catfishAnim', 
+    //         new THREE.Vector3(pos_x, -4, pos_z),
+    //         rot,
+    //         velocity,
+    //         (character: Character) => {
+    //             console.log("BOOM")
+    //             console.log(character)
+    //             character.body.velocity.set(0, -10, 0);
+    //             character.body.angularVelocity.set(-1, 0, 0);
+    //             console.log(`SCORE: ${gameEngine.score}`)
+    //             gameEngine.score += 1;
+    //             score.innerHTML = gameEngine.score.toString();
+    //         }
+    //     );
+    //     count++;
+        
+    // }
+
+    
 
     
 
