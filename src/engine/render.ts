@@ -69,6 +69,7 @@ export class RenderEngine {
     water_mat1: any;
     water_mat2: any;
     mat2texture: any;
+    textureLoader: THREE.TextureLoader;
 
     constructor(canvas: Element, sizes: {width: number, height: number}, env: THREE.Group) {
         this.canvas = canvas;
@@ -152,7 +153,7 @@ export class RenderEngine {
         }
 
         
-
+        this.textureLoader = new THREE.TextureLoader();
 
 
         this.fps = 30;
@@ -334,7 +335,7 @@ export class RenderEngine {
             // Plane
 
             let rockTexture = "/textures/water_rocks_1.jpg";
-            this.mat2texture = new THREE.TextureLoader().load(rockTexture,(load_text)=>{
+            this.mat2texture = this.textureLoader.load(rockTexture,(load_text)=>{
                 this.mat2texture.wrapS = this.mat2texture.wrapT = THREE.RepeatWrapping;
                 this.mat2texture.offset.set( 0, 0 );
                 this.mat2texture.repeat.set( 2, 2 );
@@ -408,6 +409,35 @@ export class RenderEngine {
 
 
 
+    }
+
+
+    add_cross_hair(){
+        this.textureLoader.load("/textures/crossHair2.png",(texture:THREE.Texture)=>{
+            // const material = new THREE.SpriteMaterial( { map: texture } );
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                depthTest: false,
+                transparent: true,
+            });
+            const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+            const scale = 0.01;
+            const width = material.map.image.width * scale;
+            const height = material.map.image.height * scale;
+            const mesh = new THREE.Mesh(geometry, material);
+            console.log(mesh)
+            mesh.position.set(0,0,-5);//x = 0;
+            // mesh.position.y = 1.5;
+            // mesh.position.z = -5;
+            mesh.renderOrder = 9999;
+            // let spriteC  = new THREE.Sprite( material );
+            // spriteC .center.set( 0.5, 0.5 );
+            // spriteC .scale.set( width, height, 1 );
+            // spriteC.position.set( 0, 0, -1 );
+            // spriteC.renderOrder = 9999;
+            // this.scene.add(spriteC)
+            this.camera.add(mesh)
+        })
     }
 
     addCharacter(character: Character) {

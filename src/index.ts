@@ -90,9 +90,10 @@ async function init() {
 
         // just testing the flow
         setTimeout(()=>{
-            
+            gameEngine.set_mode(MODE.INGAME);
             audioManager.play_by_name("ambi2");
-        },5000)
+            
+        },1000)
         
     }
 

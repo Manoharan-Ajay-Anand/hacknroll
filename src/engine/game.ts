@@ -21,6 +21,7 @@ export class GameEngine {
     fishies: Character[];
     mode: MODE;
     username: string;
+    menuGUI: any;
 
     constructor(renderEngine: RenderEngine, physicsEngine: PhysicsEngine) {
         this.renderEngine = renderEngine;
@@ -30,6 +31,7 @@ export class GameEngine {
         this.fishies = [];
         this.mode = MODE.MENU;
         this.username = generateName();
+        this.menuGUI = document.getElementById("menu-title");
     }
 
     get_my_name(){
@@ -38,6 +40,19 @@ export class GameEngine {
 
     set_mode(mode: MODE){
         this.mode = mode
+        this.change_state();
+    }
+
+    change_state(){
+        if (this.mode == MODE.MENU){
+            this.menuGUI.style.display = 'flex';
+        }
+        if (this.mode == MODE.MATCHING){
+            this.menuGUI.style.display = 'none';
+        }
+        if (this.mode == MODE.INGAME){
+            this.renderEngine.add_cross_hair();
+        }
     }
 
     async loadCharacters(infos: CharacterInfo[]) {
